@@ -1,4 +1,6 @@
 import React from "react";
+import SignInContainer from "../containers/SignInContainer";
+
 import { StyleSheet, View, Text, Image } from "react-native";
 import { Dimensions } from "react-native-web";
 import { LinearGradient } from "expo-linear-gradient";
@@ -8,14 +10,14 @@ const { height, width } = Dimensions.get("window");
 const SignScreen = () => {
   return (
     <LinearGradient
-      colors={["#FFDD00", "#FBB034"]}
+      colors={["#ffdd00", "#eaa923"]}
+      useAngle={true}
+      angle={45}
+      angleCenter={{x:0.5,y:0.5}}
       style={styles.linearGradient}
     >
-        <View style={styles.logoContainer}>
-            <Image 
-            style={styles.ryokoLogo}
-            source={require("../images/logo.png")}/>
-        </View>
+      <Image style={styles.ryokoLogo} source={require("../assets/images/logo.png")} />
+      <SignInContainer/>
     </LinearGradient>
   );
 };
@@ -26,19 +28,13 @@ const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-   
-  },
-
-  logoContainer: {
-      alignItems: "center",
-      justifyContent: "center",
-      position: "absolute"
+    justifyContent: "flex-start",
   },
 
   ryokoLogo: {
-      width: 350,
-      height: 200,
-      position: "absolute",
-  }
+    width: "92%",
+    height: "26%",
+    top: "4%",
+    left: "2%",
+  },
 });
