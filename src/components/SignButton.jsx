@@ -10,10 +10,11 @@ const SignButton = () => {
   return (
     <TouchableOpacity style={styles.signButton}>
       <Text style={styles.text}>Sign In</Text>
-      <FontAwesome 
-          name="angle-right"
-          size={0.48 * height}
-          style={{position: "absolute", top: "25%", left: "8%", color: "white"}} />
+      <FontAwesome
+        name="angle-right"
+        size={0.48 * height}
+        style={{ position: "absolute", top: "25%", left: "8%", color: "white" }}
+      />
     </TouchableOpacity>
   );
 };
@@ -28,13 +29,13 @@ const styles = StyleSheet.create({
     borderRadius: 360,
     height: 61,
     width: "46%",
-    top: "16%"
+    top: "16%",
   },
   text: {
     color: "white",
     fontSize: 28,
     fontFamily: "Raleway_700Bold",
     top: "-5%",
-    left: "26%"
+    left: "26%",
   },
 });

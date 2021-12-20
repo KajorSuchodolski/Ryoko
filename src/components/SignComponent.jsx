@@ -1,12 +1,46 @@
-import React from "react";
-import { StyleSheet, View, Text, TextInput } from "react-native";
+import { Raleway_400Regular } from "@expo-google-fonts/raleway";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
-const SignComponent = () => {
+const { height, width } = Dimensions.get("window");
+
+const SignComponent = (props) => {
+  const [isSecureEntry, setSecureEntry] = useState(props.secureTextEntry);
+  const [eyeName, setEyeName] = useState("eye");
+
   return (
-    <View>
-      <Text>Login</Text>
-      <View style={styles.textInput}>
-        <TextInput placeholder="example@gmail.com"></TextInput>
+    <View style={styles.signComponent}>
+      <Text style={styles.labelTextInput}>{props.label}</Text>
+      <View style={styles.textInputBox}>
+        <FontAwesome
+          name={props.fontName}
+          size={0.048 * height}
+          style={{ position: "absolute", top: "25%", left: "8%" }}
+        />
+        <TextInput
+          placeholder={props.placeHolder}
+          style={styles.textInput}
+          secureTextEntry={isSecureEntry}
+        ></TextInput>
+        {props.secureTextEntry && (
+          <TouchableOpacity
+            style={{ position: "absolute", top: "25%", left: "84%" }}
+            onPress={() => {
+              setSecureEntry(!isSecureEntry);
+              !isSecureEntry ? setEyeName("eye") : setEyeName("eye-slash");
+            }}
+          >
+            <FontAwesome name={eyeName} size={0.048 * height}></FontAwesome>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -15,12 +49,43 @@ const SignComponent = () => {
 export default SignComponent;
 
 const styles = StyleSheet.create({
-    textInput: {
-        justifyContent: "center",
-        alignContent: "center",
-        width: "87%",
-        height: "40%",
-        backgroundColor: "#FFFFFF"
-    
-    }
+  signComponent: {
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center",
+  },
+
+  labelTextInput: {
+    fontSize: 26,
+    left: "5%",
+    fontFamily: "Raleway_400Regular",
+    paddingBottom: 0.025 * height,
+  },
+
+  textInputBox: {
+    alignContent: "center",
+    width: 350,
+    height: height * 0.093,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 360,
+
+    /*  SHADOW */
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 6,
+    flexDirection: "row",
+  },
+
+  textInput: {
+    width: "55%",
+    fontFamily: "Raleway_400Regular",
+    fontSize: 20,
+    top: "-0.5%",
+    left: "140%",
+  },
 });

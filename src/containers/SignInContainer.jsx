@@ -1,30 +1,38 @@
-import React from 'react';
-import SignComponent from '../components/SignComponent';
+import React from "react";
+import SignComponent from "../components/SignComponent";
+import { Dimensions } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-import { StyleSheet, View, Text } from 'react-native';
-
+const { width, height } = Dimensions.get("window");
 
 const SignInContainer = () => {
-
-    return(
-        <View style={styles.signInContainter}>
-            <SignComponent/>
-        </View>
-    );
+  return (
+    <View style={styles.signInContainter}>
+      <SignComponent
+        label="Login"
+        fontName="user"
+        placeHolder="example@gmail.com"
+        secureTextEntry={false}
+      />
+      <SignComponent
+        label="Password"
+        fontName="key"
+        placeHolder="password"
+        secureTextEntry={true}
+      />
+    </View>
+  );
 };
 
 export default SignInContainer;
 
 const styles = StyleSheet.create({
-
-    signInContainter: {
-        justifyContent: "center",
-        alignContent: "center",
-        width: "100%",
-        height: "41%",
-        // backgroundColor: "#000000",
-        top: "10%",
-        color: "white"
-    }
-
+  signInContainter: {
+    justifyContent: "center",
+    alignContent: "center",
+    height: height * 0.38,
+    top: "7%",
+    color: "white",
+    // backgroundColor: "black"
+  },
 });
