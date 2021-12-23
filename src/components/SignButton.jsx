@@ -6,9 +6,13 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
-const SignButton = () => {
+import { handleLogin } from "../screens/SignScreen"
+import { signScreen } from "../screens/SignScreen"
+
+
+const SignButton = (props) => {
   return (
-    <TouchableOpacity style={styles.signButton}>
+    <TouchableOpacity style={styles.signButton} onPress={props.onPress}>
       <Text style={styles.text}>Sign In</Text>
       <FontAwesome
         name="angle-right"

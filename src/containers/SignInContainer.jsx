@@ -5,7 +5,7 @@ import { StyleSheet, View } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
-const SignInContainer = () => {
+const SignInContainer = (props) => {
   return (
     <View style={styles.signInContainter}>
       <SignComponent
@@ -13,12 +13,16 @@ const SignInContainer = () => {
         fontName="user"
         placeHolder="example@gmail.com"
         secureTextEntry={false}
+        value={email}
+        onChangeText={props.onChangeEmail}
       />
       <SignComponent
         label="Password"
         fontName="key"
         placeHolder="password"
         secureTextEntry={true}
+        value={password}
+        onChangeText={props.onChangePassword}
       />
     </View>
   );

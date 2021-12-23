@@ -1,6 +1,9 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import SignInContainer from "../containers/SignInContainer";
 import SignButton from "../components/SignButton";
+import { auth } from '../firebase/firebase';
+
+import { useNavigation } from '@react-navigation/core'
 
 import {
   StyleSheet,
@@ -16,6 +19,32 @@ import { LinearGradient } from "expo-linear-gradient";
 const { height, width } = Dimensions.get("window");
 
 const SignScreen = () => {
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const navigation = useNavigation()
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        navigation.navigate("UserProfileScreen")
+      }
+    })
+
+    return unsubscribe
+}, [])
+
+const handleLogin = () => {
+  auth
+    .signInWithEmailAndPassword(email, password)
+    .then(userCredentials => {
+      const user = userCredentials.user;
+      console.log('Logged in with:', user.email);
+    })
+    .catch(error => alert(error.message))
+}
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <LinearGradient
@@ -28,9 +57,9 @@ const SignScreen = () => {
         <Image
           style={styles.ryokoLogo}
           source={require("../assets/images/logo.png")}
-        />
-        <SignInContainer />
-        <SignButton />
+        /> 
+        <SignInContainer onChangePassword={text => setPassword(text)} onChangeEmail={text => setEmail(text)}/>
+        <SignButton onPress={handleLogin} />
       </LinearGradient>
     </TouchableWithoutFeedback>
   );
