@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import SignComponent from "../../components/SignComponents/SignComponent";
 import SignButton from "../../components/SignComponents/SignButton";
 
-import { auth } from '../../firebase/firebase';
-import { useNavigation } from '@react-navigation/core'
+import { auth } from "../../firebase/firebase";
+import { useNavigation } from "@react-navigation/core";
 
 import {
   StyleSheet,
@@ -27,31 +27,29 @@ import ExternalSignButton from "../../components/SignComponents/ExternalSignButt
 const { height, width } = Dimensions.get("window");
 
 const SignInScreen = () => {
-
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  const navigation = useNavigation()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigation = useNavigation();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.navigate("User Profile")
+        navigation.navigate("User Profile");
       }
-    })
+    });
 
-    return unsubscribe
-}, [])
+    return unsubscribe;
+  }, []);
 
-const handleLogin = () => {
-  auth
-    .signInWithEmailAndPassword(email, password)
-    .then(userCredentials => {
-      const user = userCredentials.user;
-      console.log('Logged in with:', user.email);
-    })
-    .catch(error => alert(error.message))
-}
+  const handleLogin = () => {
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log("Logged in with:", user.email);
+      })
+      .catch((error) => alert(error.message));
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -73,7 +71,7 @@ const handleLogin = () => {
             placeHolder="example@gmail.com"
             secureTextEntry={false}
             input={email}
-            onChangeText={text => setEmail(text)}
+            onChangeText={(text) => setEmail(text)}
           />
           <SignComponent
             label="Password"
@@ -81,11 +79,11 @@ const handleLogin = () => {
             placeHolder="password"
             secureTextEntry={true}
             input={password}
-            onChangeText={text => setPassword(text)}
+            onChangeText={(text) => setPassword(text)}
           />
         </View>
         <View style={styles.footerContainer}>
-          <SignButton text="Sign In" onPress={handleLogin}/>
+          <SignButton text="Sign In" onPress={handleLogin} />
           <Text style={{ fontFamily: "Raleway_400Regular", fontSize: 17 }}>
             - or sign in with -
           </Text>
@@ -95,7 +93,9 @@ const handleLogin = () => {
           <ExternalSignButton name="google" colors={["#ED213A", "#93291E"]} />
           <ExternalSignButton name="github" colors={["#0099F7", "#F11712"]} />
         </View>
-        <Text style={{ fontFamily: "Raleway_400Regular", fontSize: 19, top: "-5%" }}>
+        <Text
+          style={{ fontFamily: "Raleway_400Regular", fontSize: 19, top: "-5%" }}
+        >
           Already have account?
           <TouchableWithoutFeedback>
             <Text style={{ fontFamily: "Raleway_700Bold", fontSize: 19 }}>
