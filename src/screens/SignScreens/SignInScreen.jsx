@@ -95,7 +95,7 @@ const SignInScreen = () => {
         </View>
         <Text style={{ fontFamily: "Raleway_400Regular", fontSize: 19, top: "-5%" }}>
           Don't have an account?
-          <TouchableWithoutFeedback onPress={() => navigation.navigate("User Profile")}>
+          <TouchableWithoutFeedback onPress={() => navigation.navigate("Sign Up")}>
             <Text style={{ fontFamily: "Raleway_700Bold", fontSize: 19 }}>
               {" "}
               Sign Up{" "}
