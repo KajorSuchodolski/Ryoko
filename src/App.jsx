@@ -28,10 +28,11 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen options={{headerShown: false}} name="Log in" component={SignInScreen} />
-        <Stack.Screen name="User Profile" component={UserProfileScreen} />
+        <Stack.Screen options={{headerLeft: null}} name="User Profile" component={UserProfileScreen} />
+        <Stack.Screen options={{headerShown: false}} name="Sign Up" component={SignUpScreen} />
       </Stack.Navigator>
     </NavigationContainer>
-  );
+  );bh 
 };
 
 export default App;
