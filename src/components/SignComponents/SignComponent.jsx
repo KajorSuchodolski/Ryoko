@@ -22,7 +22,7 @@ const SignComponent = (props) => {
       <View style={styles.textInputBox}>
         <FontAwesome
           name={props.fontName}
-          size={0.048 * height}
+          size={0.040 * height}
           style={{ position: "absolute", top: "25%", left: "8%" }}
         />
         <TextInput
@@ -38,7 +38,7 @@ const SignComponent = (props) => {
               !isSecureEntry ? setEyeName("eye") : setEyeName("eye-slash");
             }}
           >
-            <FontAwesome name={eyeName} size={0.048 * height}></FontAwesome>
+            <FontAwesome name={eyeName} size={0.040 * height}></FontAwesome>
           </TouchableOpacity>
         )}
       </View>
@@ -51,21 +51,21 @@ export default SignComponent;
 const styles = StyleSheet.create({
   signComponent: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignContent: "center",
   },
 
   labelTextInput: {
-    fontSize: 26,
-    left: "5%",
+    fontSize: 20,
+    left: "6%",
     fontFamily: "Raleway_400Regular",
-    paddingBottom: 0.025 * height,
+    paddingBottom: 0.01 * height,
   },
 
   textInputBox: {
     alignContent: "center",
     width: 350,
-    height: height * 0.093,
+    height: height * 0.08,
     backgroundColor: "#FFFFFF",
     borderRadius: 360,
 
@@ -77,15 +77,16 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
-    elevation: 6,
+    elevation: 80,
     flexDirection: "row",
   },
 
   textInput: {
     width: "55%",
     fontFamily: "Raleway_400Regular",
-    fontSize: 20,
+    fontSize: 17,
     top: "-0.5%",
-    left: "140%",
+    left: "150%",
   },
+  
 });

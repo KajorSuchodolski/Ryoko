@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Dimensions } from "react-native";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
-import SignScreen from "./screens/SignScreen";
+import SignInScreen from "./screens/SignScreens/SignInScreen";
+import SignUpScreen from "./screens/SignScreens/SignUpScreen";
 import UserProfileScreen from "./screens/UserProfileScreen";
 import { useFonts, Raleway_400Regular, Raleway_700Bold } from "@expo-google-fonts/raleway";
 
@@ -18,6 +19,7 @@ const App = () => {
     return null;
   }
 
+
   return (
     /* 
     W ramach testow odblokowac
@@ -25,8 +27,7 @@ const App = () => {
     <SignScreen/> 
 
     */
-
-    <UserProfileScreen/>
+      <SignInScreen />
   );
 };
 

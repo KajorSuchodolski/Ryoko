@@ -6,10 +6,10 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
-const SignButton = () => {
+const SignButton = (props) => {
   return (
     <TouchableOpacity style={styles.signButton}>
-      <Text style={styles.text}>Sign In</Text>
+      <Text style={styles.text}>{props.text}</Text>
       <FontAwesome
         name="angle-right"
         size={0.48 * height}
@@ -24,18 +24,17 @@ export default SignButton;
 const styles = StyleSheet.create({
   signButton: {
     justifyContent: "center",
+    alignContent: "center",
     backgroundColor: "black",
-    top: "10%",
     borderRadius: 360,
     height: 61,
-    width: "46%",
-    top: "16%",
+    width: 180,
   },
   text: {
     color: "white",
     fontSize: 28,
     fontFamily: "Raleway_700Bold",
-    top: "-5%",
-    left: "26%",
+    top: "-6%",
+    left: "22%",
   },
 });
