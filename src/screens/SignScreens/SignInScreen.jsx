@@ -94,11 +94,9 @@ const SignInScreen = () => {
           <ExternalSignButton name="google" colors={["#ED213A", "#93291E"]} />
           <ExternalSignButton name="github" colors={["#0099F7", "#F11712"]} />
         </View>
-        <Text
-          style={{ fontFamily: "Raleway_400Regular", fontSize: 19, top: "-5%" }}
-        >
-          Already have account?
-          <TouchableWithoutFeedback>
+        <Text style={{ fontFamily: "Raleway_400Regular", fontSize: 19, top: "-5%" }}>
+          Don't have an account?
+          <TouchableWithoutFeedback onPress={() => navigation.navigate("Sign Up")}>
             <Text style={{ fontFamily: "Raleway_700Bold", fontSize: 19 }}>
               {" "}
               Sign Up{" "}

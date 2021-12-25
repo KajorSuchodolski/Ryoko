@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SignComponent from "../../components/SignComponents/SignComponent";
 import SignButton from "../../components/SignComponents/SignButton";
+import { auth } from "../../firebase/firebase";
 
 import {
   StyleSheet,
@@ -9,6 +10,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import { Dimensions } from "react-native-web";
 import { LinearGradient } from "expo-linear-gradient";
@@ -19,6 +21,20 @@ import ExternalSignButton from "../../components/SignComponents/ExternalSignButt
 const { height, width } = Dimensions.get("window");
 
 const SignUpScreen = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+
+  const handleSignUp = () => {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log("Registered user: ", user.email);
+      })
+      .catch((error) => alert(error.message));
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <LinearGradient
@@ -36,33 +52,36 @@ const SignUpScreen = () => {
           ></FontAwesome>
         </TouchableWithoutFeedback>
         <View style={styles.signUpContainter}>
-          <SignComponent
+          {/* <SignComponent
             label="Login"
             fontName="user"
             placeHolder="UserLogin"
             secureTextEntry={false}
-          />
+          /> */}
           <SignComponent
             label="Email"
             fontName="envelope"
             placeHolder="example@gmail.com"
             secureTextEntry={false}
+            onChangeText={(text) => setEmail(text)}
           />
           <SignComponent
             label="Password"
             fontName="key"
             placeHolder="password"
             secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}
           />
           <SignComponent
             label="Confirm password"
             fontName="key"
             placeHolder="password"
             secureTextEntry={true}
+            onChangeText={(text) => setPasswordConfirm(text)}
           />
         </View>
         <View style={styles.footerContainer}>
-          <SignButton text="Sign Up" />
+          <SignButton text="Sign Up" onPress={() => {password === passwordConfirm ? handleSignUp() : Alert.alert("Alert", "Passwords don't match!")}} />
           <Text style={{ fontFamily: "Raleway_400Regular", fontSize: 19 }}>- or sign up with -</Text>
         </View>
         <View style={styles.otherOptionsContainer}>
