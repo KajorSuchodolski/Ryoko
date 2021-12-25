@@ -8,7 +8,7 @@ const { width, height } = Dimensions.get("window");
 
 const SignButton = (props) => {
   return (
-    <TouchableOpacity style={styles.signButton}>
+    <TouchableOpacity style={styles.signButton} onPress={props.onPress}>
       <Text style={styles.text}>{props.text}</Text>
       <FontAwesome
         name="angle-right"

@@ -1,5 +1,5 @@
 import { Raleway_400Regular } from "@expo-google-fonts/raleway";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -16,6 +16,8 @@ const SignComponent = (props) => {
   const [isSecureEntry, setSecureEntry] = useState(props.secureTextEntry);
   const [eyeName, setEyeName] = useState("eye");
 
+ 
+
   return (
     <View style={styles.signComponent}>
       <Text style={styles.labelTextInput}>{props.label}</Text>
@@ -26,6 +28,7 @@ const SignComponent = (props) => {
           style={{ position: "absolute", top: "25%", left: "8%" }}
         />
         <TextInput
+          {...props}
           placeholder={props.placeHolder}
           style={styles.textInput}
           secureTextEntry={isSecureEntry}

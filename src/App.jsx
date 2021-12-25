@@ -7,6 +7,10 @@ import UserProfileScreen from "./screens/UserProfileScreen";
 import { useFonts, Raleway_400Regular, Raleway_700Bold } from "@expo-google-fonts/raleway";
 
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   let [fontsLoaded, error] = useFonts({
@@ -21,13 +25,12 @@ const App = () => {
 
 
   return (
-    /* 
-    W ramach testow odblokowac
-
-    <SignScreen/> 
-
-    */
-      <SignInScreen />
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen options={{headerShown: true}} name="Log in" component={SignInScreen} />
+        <Stack.Screen name="User Profile" component={UserProfileScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
