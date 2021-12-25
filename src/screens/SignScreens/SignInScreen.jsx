@@ -96,8 +96,8 @@ const handleLogin = () => {
           <ExternalSignButton name="github" colors={["#0099F7", "#F11712"]} />
         </View>
         <Text style={{ fontFamily: "Raleway_400Regular", fontSize: 19, top: "-5%" }}>
-          Already have account?
-          <TouchableWithoutFeedback>
+          Don't have an account?
+          <TouchableWithoutFeedback onPress={() => navigation.navigate("User Profile")}>
             <Text style={{ fontFamily: "Raleway_700Bold", fontSize: 19 }}>
               {" "}
               Sign Up{" "}
