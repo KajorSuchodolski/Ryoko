@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -13,14 +13,15 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableOpacity, Image } from "react-native";
 import { Raleway_400Regular } from "@expo-google-fonts/raleway";
-import { tintColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
-import { Button } from "react-native";
+import { auth } from "../firebase/firebase";
+import { useNavigation } from "@react-navigation/core";
 
 const { height, width } = Dimensions.get("window");
 
 const UserProfileScreen = (props) => {
   let isDarkMode = props.isDarkMode ? true : false;
   const [switchValue, setSwitchValue] = useState(false);
+  const navigation = useNavigation();
 
   const tokyoRegion = {
     latitude: 35.6762,
@@ -29,9 +30,20 @@ const UserProfileScreen = (props) => {
     longitudeDelta: 0.01,
   };
 
+  const logOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        console.log("User logged out succesfully!");
+        navigation.navigate("Log in");
+      })
+      .catch((error) => console.log(error));
+  };
+
+
   return (
     <View style={styles.container}>
-      <GoogleMap darkMode={isDarkMode}/>
+      <GoogleMap darkMode={isDarkMode} />
       <LinearGradient
         colors={isDarkMode ? ["#121212", "#121212"] : ["#FFFFFF", "#FFFFFF"]}
         style={styles.footer}
@@ -59,7 +71,7 @@ const UserProfileScreen = (props) => {
             ></FontAwesome5>
           </LinearGradient>
         </TouchableWithoutFeedback>
-        <TouchableOpacity style={{ left: "-30%" }}>
+        <TouchableOpacity style={{ left: "-30%" }} onPress={logOut}>
           <View style={styles.footerBtn}>
             <Image
               source={require("../assets/images/cog.png")}
