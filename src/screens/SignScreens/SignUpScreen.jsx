@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import SignComponent from "../../components/SignComponents/SignComponent";
 import SignButton from "../../components/SignComponents/SignButton";
-import { auth } from "../../firebase/firebase";
+import { auth } from "../../service/firebase/firebase";
+
 
 import {
   StyleSheet,
