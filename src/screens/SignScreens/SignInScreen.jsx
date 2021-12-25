@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SignComponent from "../../components/SignComponents/SignComponent";
 import SignButton from "../../components/SignComponents/SignButton";
 
-import { auth } from "../../firebase/firebase";
+import { auth } from "../../service/firebase/firebase";
 import { useNavigation } from "@react-navigation/core";
 
 import {
@@ -47,6 +47,7 @@ const SignInScreen = () => {
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log("Logged in with:", user.email);
+
       })
       .catch((error) => alert(error.message));
   };

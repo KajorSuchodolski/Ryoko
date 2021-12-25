@@ -13,7 +13,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableOpacity, Image } from "react-native";
 import { Raleway_400Regular } from "@expo-google-fonts/raleway";
-import { auth } from "../firebase/firebase";
+import { auth } from "../service/firebase/firebase";
 import { useNavigation } from "@react-navigation/core";
 
 const { height, width } = Dimensions.get("window");
