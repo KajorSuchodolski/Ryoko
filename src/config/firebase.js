@@ -12,10 +12,12 @@ const firebaseConfig = {
 
 let app;
 if (firebase.apps.length === 0) {
-  app = firebase.initializeApp(firebaseConfig)
+  app = firebase.initializeApp(firebaseConfig);
 } else {
   app = firebase.app();
 }
-const auth = firebase.auth()
+const auth = firebase.auth();
+const googleProvider = firebase.GoogleAuthProvider;
 
-export {auth}
+export {googleProvider};
+export {auth};

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SignComponent from "../../components/SignComponents/SignComponent";
 import SignButton from "../../components/SignComponents/SignButton";
-import { auth } from "../../service/firebase/firebase";
-
+import { auth, googleProvider } from "../../config/firebase";
 
 import {
   StyleSheet,
@@ -35,6 +34,7 @@ const SignUpScreen = () => {
       })
       .catch((error) => alert(error.message));
   };
+
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -82,13 +82,22 @@ const SignUpScreen = () => {
           />
         </View>
         <View style={styles.footerContainer}>
-          <SignButton text="Sign Up" onPress={() => {password === passwordConfirm ? handleSignUp() : Alert.alert("Alert", "Passwords don't match!")}} />
-          <Text style={{ fontFamily: "Raleway_400Regular", fontSize: 19 }}>- or sign up with -</Text>
+          <SignButton
+            text="Sign Up"
+            onPress={() => {
+              password === passwordConfirm
+                ? handleSignUp()
+                : Alert.alert("Alert", "Passwords don't match!");
+            }}
+          />
+          <Text style={{ fontFamily: "Raleway_400Regular", fontSize: 19 }}>
+            - or sign up with -
+          </Text>
         </View>
         <View style={styles.otherOptionsContainer}>
-            <ExternalSignButton name="facebook" colors={["#0575E6", "#021B79"]}/>
-            <ExternalSignButton name="google" colors={["#ED213A", "#93291E"]}/>
-            <ExternalSignButton name="github" colors={["#0099F7", "#F11712"]}/>
+          <ExternalSignButton name="facebook" colors={["#0575E6", "#021B79"]} />
+          <ExternalSignButton name="google" colors={["#ED213A", "#93291E"]} />
+          <ExternalSignButton name="github" colors={["#0099F7", "#F11712"]} />
         </View>
       </LinearGradient>
     </TouchableWithoutFeedback>
@@ -117,14 +126,14 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     alignItems: "center",
   },
   otherOptionsContainer: {
-      flex: 0.3,
-      flexDirection: "row",
-      justifyContent: "flex-start",
-      alignItems: "flex-end",
-      top: "-4%"
-  }
+    flex: 0.3,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
+    top: "-4%",
+  },
 });

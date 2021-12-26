@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SignComponent from "../../components/SignComponents/SignComponent";
 import SignButton from "../../components/SignComponents/SignButton";
 
-import { auth } from "../../service/firebase/firebase";
+import { auth } from "../../config/firebase";
 import { useNavigation } from "@react-navigation/core";
 
 import {
@@ -23,6 +23,13 @@ import {
   Raleway_700Bold,
 } from "@expo-google-fonts/raleway";
 import ExternalSignButton from "../../components/SignComponents/ExternalSignButton";
+import socialMediaAuth from "../../service/socialMediaAuth";
+import {
+  facebookProvider,
+  githubProvider,
+  googleProvider,
+} from "../../config/authMethods";
+import * as Google from "expo-google-app-auth";
 
 const { height, width } = Dimensions.get("window");
 
@@ -47,7 +54,25 @@ const SignInScreen = () => {
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log("Logged in with:", user.email);
+      })
+      .catch((error) => alert(error.message));
+  };
 
+  const handleGoogleSign = () => {
+    const config = {
+      androidClientId:
+        "471734118607-7blh280q97ntekappsbjr43liu26ftm4.apps.googleusercontent.com",
+      scope: ["profile", "email"],
+    };
+    Google.logInAsync(config)
+      .then((result) => {
+        const {type, user} = result;
+        
+        if(type === 'success') {
+          const {email, name, photoUrl} = user;
+          console.log('Logged in with: ', user);
+          setTimeout(() => navigation.navigate("User Profile"));
+        }
       })
       .catch((error) => alert(error.message));
   };
@@ -91,12 +116,23 @@ const SignInScreen = () => {
         </View>
         <View style={styles.otherOptionsContainer}>
           <ExternalSignButton name="facebook" colors={["#0575E6", "#021B79"]} />
-          <ExternalSignButton name="google" colors={["#ED213A", "#93291E"]} />
+          <ExternalSignButton
+            onPress={() => {
+              handleGoogleSign();
+              console.log("clicked");
+            }}
+            name="google"
+            colors={["#ED213A", "#93291E"]}
+          />
           <ExternalSignButton name="github" colors={["#0099F7", "#F11712"]} />
         </View>
-        <Text style={{ fontFamily: "Raleway_400Regular", fontSize: 19, top: "-5%" }}>
+        <Text
+          style={{ fontFamily: "Raleway_400Regular", fontSize: 19, top: "-5%" }}
+        >
           Don't have an account?
-          <TouchableWithoutFeedback onPress={() => navigation.navigate("Sign Up")}>
+          <TouchableWithoutFeedback
+            onPress={() => navigation.navigate("Sign Up")}
+          >
             <Text style={{ fontFamily: "Raleway_700Bold", fontSize: 19 }}>
               {" "}
               Sign Up{" "}

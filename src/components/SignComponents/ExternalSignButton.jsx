@@ -8,7 +8,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const ExternalSignButton = (props) => {
   return (
-    <TouchableOpacity style={styles.touchable}>
+    <TouchableOpacity {...props} style={styles.touchable}>
       <LinearGradient style={styles.container}
         colors={props.colors}
         useAngle={true}
