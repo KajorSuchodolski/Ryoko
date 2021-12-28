@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SignComponent from "../../components/SignComponents/SignComponent";
 import SignButton from "../../components/SignComponents/SignButton";
-import { auth, googleProvider } from "../../config/firebase";
+import { auth } from "../../config/firebase";
 
 import {
   StyleSheet,
@@ -17,6 +17,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome } from "@expo/vector-icons";
 import { Raleway_400Regular } from "@expo-google-fonts/raleway";
 import ExternalSignButton from "../../components/SignComponents/ExternalSignButton";
+import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../context/authContext";
 
 const { height, width } = Dimensions.get("window");
 
@@ -25,16 +27,9 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const handleSignUp = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Registered user: ", user.email);
-      })
-      .catch((error) => alert(error.message));
-  };
+  const navigation = useNavigation();
 
+  const {googleLogIn, signUp} = useAuth();
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -50,6 +45,7 @@ const SignUpScreen = () => {
             name="arrow-left"
             size={30}
             style={styles.arrow}
+            onPress={() => navigation.navigate("Sign In")}
           ></FontAwesome>
         </TouchableWithoutFeedback>
         <View style={styles.signUpContainter}>
@@ -86,7 +82,7 @@ const SignUpScreen = () => {
             text="Sign Up"
             onPress={() => {
               password === passwordConfirm
-                ? handleSignUp()
+                ? signUp(email, password)
                 : Alert.alert("Alert", "Passwords don't match!");
             }}
           />
@@ -96,7 +92,7 @@ const SignUpScreen = () => {
         </View>
         <View style={styles.otherOptionsContainer}>
           <ExternalSignButton name="facebook" colors={["#0575E6", "#021B79"]} />
-          <ExternalSignButton name="google" colors={["#ED213A", "#93291E"]} />
+          <ExternalSignButton name="google" onPress={googleLogIn} colors={["#ED213A", "#93291E"]} />
           <ExternalSignButton name="github" colors={["#0099F7", "#F11712"]} />
         </View>
       </LinearGradient>

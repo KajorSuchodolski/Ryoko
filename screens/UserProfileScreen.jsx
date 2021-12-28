@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
   Text,
   Dimensions,
-  TouchableWithoutFeedback,
-  Switch,
+  TouchableWithoutFeedback
 } from "react-native";
 import GoogleMap from "../components/Map/GoogleMap";
-import { Marker } from "react-native-maps";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableOpacity, Image } from "react-native";
-import { Raleway_400Regular } from "@expo-google-fonts/raleway";
-import { auth } from "../config/firebase";
 import { useNavigation } from "@react-navigation/core";
+import { useAuth } from "../context/authContext";
 
 const { height, width } = Dimensions.get("window");
 
@@ -23,23 +20,15 @@ const UserProfileScreen = (props) => {
   const [switchValue, setSwitchValue] = useState(false);
   const navigation = useNavigation();
 
+  const {logOut} = useAuth();
+
+
   const tokyoRegion = {
     latitude: 35.6762,
     longitude: 139.6503,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   };
-
-  const logOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        console.log("User logged out succesfully!");
-        navigation.navigate("Log in");
-      })
-      .catch((error) => console.log(error));
-  };
-
 
   return (
     <View style={styles.container}>
