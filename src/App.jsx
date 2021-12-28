@@ -9,6 +9,7 @@ import { useFonts, Raleway_400Regular, Raleway_700Bold } from "@expo-google-font
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SettingsScreen from "./screens/SettingsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ const App = () => {
         <Stack.Screen options={{headerShown: false}} name="Log in" component={SignInScreen} />
         <Stack.Screen options={{headerLeft: null}} name="User Profile" component={UserProfileScreen} />
         <Stack.Screen options={{headerShown: false}} name="Sign Up" component={SignUpScreen} />
+        <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );bh 
