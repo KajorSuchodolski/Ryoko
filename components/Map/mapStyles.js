@@ -279,3 +279,15 @@ export const MapStyleDark = [
         ]
     }
 ]
+
+export const googleMapStyle = [
+    {
+      featureType: "administrative",
+      elementType: "geometry",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+  ];

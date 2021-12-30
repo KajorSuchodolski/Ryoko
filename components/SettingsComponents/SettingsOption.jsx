@@ -1,7 +1,5 @@
 import { useFonts, Raleway_400Regular } from "@expo-google-fonts/raleway";
 import React, { useState, useEffect } from "react";
-import { LinearGradient } from "expo-linear-gradient";
-
 import {
   StyleSheet,
   View,
@@ -20,7 +18,7 @@ const SettingsOption  = (props) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
   const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
 
-  let [fontsLoaded, error] = useFonts({
+  let [fontsLoaded] = useFonts({
     Raleway_400Regular,
   });
 
@@ -34,7 +32,8 @@ const SettingsOption  = (props) => {
       <View style={styles.switchOrIcon}>
         {props.isSwitch ? <Switch value={isSwitchOn} color="white" onValueChange={onToggleSwitch} style={styles.switch}/> : (<TouchableOpacity><FontAwesome
             name="angle-right"
-            size={33}></FontAwesome></TouchableOpacity>)}
+            size={33}
+            style={{padding: 5}}></FontAwesome></TouchableOpacity>)}
         </View>
     </View>
   );
@@ -45,7 +44,7 @@ export default SettingsOption;
 const styles = StyleSheet.create({
   settingsComponent: {
     flexDirection: "row",
-    marginTop: "2%",
+    // marginTop: "2%",
     justifyContent: "space-between",
   },
   
@@ -55,9 +54,8 @@ const styles = StyleSheet.create({
     },
 
   switch: {
-    bottom: "16%",
     left: "30%",
-  },
+    top: "-10%"  },
 
   switchOrIcon: {
     paddingLeft: "43%",

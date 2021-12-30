@@ -1,8 +1,7 @@
 import { useFonts, Raleway_400Regular } from "@expo-google-fonts/raleway";
 import React, { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import SettingsComponent from "../components/SettingsComponents/SettingsComponent";
-import { Switch } from 'react-native-paper';
+import SettingsComponent from "../../components/SettingsComponents/SettingsComponent";
 import { useNavigation } from "@react-navigation/core";
 
 
@@ -72,10 +71,10 @@ const SettingsScreen = (props) => {
         optionTextContentOne={"App sounds"} optionTextContentTwo={"App vibration"} 
         style={styles.settingOneComponentStyle}/>
 
-      <SettingsComponent iconName={"volume-up"} subtitleTextContent={"Miscellaneous"} 
+      <SettingsComponent iconName={"file"} subtitleTextContent={"Miscellaneous"} 
         isSwitchOne={true} isSwitchTwo={false}
         optionTextContentOne={"Dark Mode"} optionTextContentTwo={"Logout"} 
-        style={styles.settingOneComponentStyle}/>
+        style={styles.settingOneComponentStyle} onPress={logOut()}/>
    </View>
   </LinearGradient>
   );
@@ -108,8 +107,9 @@ const styles = StyleSheet.create({
   },
 
   settingsComponentsStyle: {
+    justifyContent: "center",
     alignSelf: "flex-start",
-    top: "10%",
+    top: "9%",
     left: "7%",
   },
 

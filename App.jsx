@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, LogBox } from "react-native";
 
 import {
   useFonts,
@@ -11,6 +11,9 @@ import { Router } from "./components/Router/Router";
 import { AuthProvider } from "./context/authContext";
 
 const App = () => {
+
+  LogBox.ignoreLogs(['Setting a timer']);
+  
   let [fontsLoaded, error] = useFonts({
     Raleway_400Regular,
     Raleway_700Bold,

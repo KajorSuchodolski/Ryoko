@@ -85,9 +85,9 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-    width: "55%",
+    width: "100%",
     fontFamily: "Raleway_400Regular",
-    fontSize: 17,
+    fontSize: 18,
     top: "-0.5%",
     left: "150%",
   },

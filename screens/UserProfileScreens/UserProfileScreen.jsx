@@ -6,12 +6,13 @@ import {
   Dimensions,
   TouchableWithoutFeedback
 } from "react-native";
-import GoogleMap from "../components/Map/GoogleMap";
+import GoogleMap from "../../components/Map/GoogleMap";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/core";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../../context/authContext";
+import { getLocations, data } from "../../api/LocationApi";
 
 const { height, width } = Dimensions.get("window");
 
@@ -22,15 +23,12 @@ const UserProfileScreen = (props) => {
 
   const {logOut} = useAuth();
 
-
   const tokyoRegion = {
     latitude: 35.6762,
     longitude: 139.6503,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   };
-
-
 
   return (
     <View style={styles.container}>
@@ -42,7 +40,7 @@ const UserProfileScreen = (props) => {
         <TouchableOpacity style={{ left: "38%" }}>
           <View style={styles.footerBtn}>
             <Image
-              source={require("../assets/images/pulse.png")}
+              source={require("../../assets/images/pulse.png")}
               style={{ height: 50, width: 50 }}
               tintColor={props.isDarkMode ? "#F5F6F7" : "black"}
             ></Image>
@@ -53,7 +51,7 @@ const UserProfileScreen = (props) => {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate("Add Location")}>
           <LinearGradient colors={["#ffdd00", "#eaa923"]} style={styles.addBtn}>
             <FontAwesome5
               name="plus"
@@ -65,7 +63,7 @@ const UserProfileScreen = (props) => {
         <TouchableOpacity style={{ left: "-30%" }} onPress={() => navigation.navigate("Settings")}>
           <View style={styles.footerBtn}>
             <Image
-              source={require("../assets/images/cog.png")}
+              source={require("../../assets/images/cog.png")}
               style={{ height: 50, width: 50 }}
               tintColor={props.isDarkMode ? "#F5F6F7" : "black"}
             ></Image>

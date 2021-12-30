@@ -46,13 +46,12 @@ const styles = StyleSheet.create({
     left: "1%",
     justifyContent: "flex-start",
     alignContent: "center",
-    marginBottom: "10%",
+    marginBottom: 12,
     },
    
   line: {
     borderBottomColor: '#242526',
     borderBottomWidth: 1,
-    marginTop: "4%",
-    marginBottom: "2%",
+    marginVertical: "4%",
   },
 });
