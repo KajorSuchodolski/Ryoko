@@ -30,6 +30,8 @@ const UserProfileScreen = (props) => {
     longitudeDelta: 0.01,
   };
 
+
+
   return (
     <View style={styles.container}>
       <GoogleMap darkMode={isDarkMode} />
@@ -60,7 +62,7 @@ const UserProfileScreen = (props) => {
             ></FontAwesome5>
           </LinearGradient>
         </TouchableWithoutFeedback>
-        <TouchableOpacity style={{ left: "-30%" }} onPress={logOut}>
+        <TouchableOpacity style={{ left: "-30%" }} onPress={() => navigation.navigate("Settings")}>
           <View style={styles.footerBtn}>
             <Image
               source={require("../assets/images/cog.png")}
