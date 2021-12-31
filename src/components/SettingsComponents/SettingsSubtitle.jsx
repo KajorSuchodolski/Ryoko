@@ -1,6 +1,7 @@
 import { useFonts, Raleway_400Regular } from "@expo-google-fonts/raleway";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import { IsDarkModeOn } from "../../Context";
 
 import {
   StyleSheet,
@@ -15,6 +16,8 @@ const { height, width } = Dimensions.get("window");
 
 const SettingsSubtitle  = (props) => {
 
+  const darkModeOn = useContext(IsDarkModeOn);  
+
   let [fontsLoaded, error] = useFonts({
     Raleway_400Regular,
   });
@@ -28,8 +31,10 @@ const SettingsSubtitle  = (props) => {
       <FontAwesome
             name={props.iconName}
             size={30}
+            style={darkModeOn ? {color: "grey"} : {color: "black"}}
       ></FontAwesome>
-      <Text style={styles.titleStyle}>{props.subtitleTextContent}</Text>
+      <Text style={[styles.titleStyle, darkModeOn ? {color : "grey"} : {color : "black"}]}>
+        {props.subtitleTextContent}</Text>
       
     </View>
   );

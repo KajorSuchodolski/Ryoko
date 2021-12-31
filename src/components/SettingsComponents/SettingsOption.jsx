@@ -1,6 +1,7 @@
 import { useFonts, Raleway_400Regular } from "@expo-google-fonts/raleway";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import { IsDarkModeOn } from '../../Context';
 
 import {
   StyleSheet,
@@ -17,24 +18,19 @@ import { Switch } from 'react-native-paper';
 
 const SettingsOption  = (props) => {
 
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-
-  let [fontsLoaded, error] = useFonts({
-    Raleway_400Regular,
-  });
-
-  if(!fontsLoaded) {
-    return null;
-  }
+  const darkModeOn = useContext(IsDarkModeOn);  
 
   return (
     <View style={styles.settingsComponent}>
-      <Text style={styles.title}>{props.optionTextContent}</Text>
+      <Text style={[styles.title, darkModeOn ? {color : "grey"} : {color : "black"}]}>
+        {props.optionTextContent}</Text>
       <View style={styles.switchOrIcon}>
-        {props.isSwitch ? <Switch value={isSwitchOn} color="white" onValueChange={onToggleSwitch} style={styles.switch}/> : (<TouchableOpacity><FontAwesome
+        {props.isSwitch ? <Switch value={props.isSwitchOn} color="white" onValueChange={props.onToggleSwitch} style={styles.switch}/> : 
+        (<TouchableOpacity onPress={props.onPressIcon}><FontAwesome
             name="angle-right"
-            size={33}></FontAwesome></TouchableOpacity>)}
+            size={33}
+            style={darkModeOn ? {color: "grey"} : {color: "black"}}
+            ></FontAwesome></TouchableOpacity>)}
         </View>
     </View>
   );

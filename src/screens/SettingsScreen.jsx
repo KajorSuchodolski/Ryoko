@@ -1,10 +1,12 @@
 import { useFonts, Raleway_400Regular } from "@expo-google-fonts/raleway";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactPropTypes, useContext } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import SettingsComponent from "../components/SettingsComponents/SettingsComponent";
-import { Switch } from 'react-native-paper';
+import { Switch } from "react-native-paper";
 import { useNavigation } from "@react-navigation/core";
-
+import { auth } from "../service/firebase/firebase";
+import { Alert } from "react-native";
+import { IsDarkModeOn } from '../Context';
 
 import {
   StyleSheet,
@@ -12,72 +14,85 @@ import {
   Text,
   Dimensions,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { EventRegister } from "react-native-event-listeners";
 
 const { height, width } = Dimensions.get("window");
 
-const logOut = () => {
-  auth
-    .signOut()
-    .then(() => {
-      console.log("User logged out succesfully!");
-      navigation.navigate("Log in");
-    })
-    .catch((error) => console.log(error));
-};
-
-
 const SettingsScreen = (props) => {
-
   const navigation = useNavigation();
+  // const [theme, setTheme] = useState(Appearance.getColorScheme())
 
-  let [fontsLoaded, error] = useFonts({
-    Raleway_400Regular,
-  });
+  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+  const darkModeOn = useContext(IsDarkModeOn);  
 
-  if(!fontsLoaded) {
-    return null;
+  const darkModeOnOff = () => {
+    setIsSwitchOn(!isSwitchOn);
+    EventRegister.emit("changeDarkTheme", (!isSwitchOn));
   }
+
+
+  const logOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        Alert.alert("Message", "User logged out successfully");
+        navigation.navigate("Log in");
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <LinearGradient
-      colors={["#ffdd00", "#eaa923"]}
-      useAngle={true}
-      angle={45}
-      angleCenter={{ x: 0.5, y: 0.5 }}
-      style={styles.linearGradient}
-    >
-    <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+        colors={darkModeOn ? ["#000000", "#1f1f1f"] : ["#ffdd00", "#eaa923"]}
+        useAngle={true}
+        angle={45}
+        angleCenter={{ x: 0.5, y: 0.5 }}
+        style={styles.linearGradient}
+      >
+      <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
         <FontAwesome
-            name="arrow-left"
-            size={33}
-            style={styles.arrow}
+          name="arrow-left"
+          size={33}
+          style={[styles.arrow, darkModeOn ? {color : "grey"} : {color : "black"}]}
         ></FontAwesome>
-   </TouchableWithoutFeedback>
-   <Text style={styles.settingsMainTitle}>
-       Settings
-   </Text>    
-   <View style={styles.settingsComponentsStyle}>
-      <SettingsComponent iconName={"user"} subtitleTextContent={"Account"} 
+      </TouchableWithoutFeedback>
+      <Text style={[styles.settingsMainTitle, darkModeOn ? {color : "grey"} : {color : "black"}]}>
+        Settings</Text>
+      <View style={styles.settingsComponentsStyle}>
+        <SettingsComponent
+          iconName={"user"}
+          subtitleTextContent={"Account"}
+          onPressIconOne={() => {
+            navigation.navigate("Auth Change", "email");
+          }}
+          onPressIconTwo={() => {
+            navigation.navigate("Auth Change", "password");
+          }}
+          optionTextContentOne={"Change email"}
+          optionTextContentTwo={"Change password"}
+        />
 
-        isSwitchOne={false} isSwitchTwo={false}
-        optionTextContentOne={"Edit Profile"}
-        optionTextContentTwo={"Change password"} style={styles.settingOneComponentStyle}/>
-
-      <SettingsComponent iconName={"volume-up"} subtitleTextContent={"Sounds and vibration"} 
+        {/* <SettingsComponent iconName={"volume-up"} subtitleTextContent={"Sounds and vibration"} 
 
         isSwitchOne={true} isSwitchTwo={true}
-        optionTextContentOne={"App sounds"} optionTextContentTwo={"App vibration"} 
-        style={styles.settingOneComponentStyle}/>
+        onPressIconOne={null} onPressIconTwo={null}
+        optionTextContentOne={"App sounds"} optionTextContentTwo={"App vibration"} /> */}
 
-      <SettingsComponent iconName={"volume-up"} subtitleTextContent={"Miscellaneous"} 
-        isSwitchOne={true} isSwitchTwo={false}
-        optionTextContentOne={"Dark Mode"} optionTextContentTwo={"Logout"} 
-        style={styles.settingOneComponentStyle}/>
-   </View>
-  </LinearGradient>
+        <SettingsComponent
+          iconName={"question"}
+          subtitleTextContent={"Miscellaneous"}
+          isSwitchOnOne={isSwitchOn}
+          isSwitchOne={true}
+          onToggleSwitchOne={darkModeOnOff}
+          onPressIconTwo={logOut}
+          optionTextContentOne={"Dark Mode"}
+          optionTextContentTwo={"Logout"}
+        />
+      </View>
+    </LinearGradient>
   );
 };
 
@@ -112,6 +127,4 @@ const styles = StyleSheet.create({
     top: "10%",
     left: "7%",
   },
-
-
 });

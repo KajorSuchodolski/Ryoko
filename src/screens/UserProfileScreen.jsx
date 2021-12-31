@@ -30,8 +30,6 @@ const UserProfileScreen = (props) => {
     longitudeDelta: 0.01,
   };
 
-
-
   return (
     <View style={styles.container}>
       <GoogleMap darkMode={isDarkMode} />

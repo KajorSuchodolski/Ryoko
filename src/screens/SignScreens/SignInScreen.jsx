@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, createContext } from "react";
 import SignComponent from "../../components/SignComponents/SignComponent";
 import SignButton from "../../components/SignComponents/SignButton";
-
+import { IsDarkModeOn } from '../../Context';
 import { auth } from "../../service/firebase/firebase";
 import { useNavigation } from "@react-navigation/core";
 
@@ -31,9 +31,12 @@ const SignInScreen = () => {
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
+  const darkModeOn = useContext(IsDarkModeOn);  
+  console.log(darkModeOn);
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
+      if (user) { 
         navigation.navigate("User Profile");
       }
     });
@@ -85,7 +88,8 @@ const SignInScreen = () => {
         </View>
         <View style={styles.footerContainer}>
           <SignButton text="Sign In" onPress={handleLogin} />
-          <Text style={{ fontFamily: "Raleway_400Regular", fontSize: 17 }}>
+          <Text style={darkModeOn ? { fontFamily: "Raleway_400Regular", fontSize: 17, color: "#C0C0C0"}
+          : { fontFamily: "Raleway_400Regular", fontSize: 17 }}>
             - or sign in with -
           </Text>
         </View>
@@ -117,7 +121,9 @@ const styles = StyleSheet.create({
     height: "30%",
     top: "4%",
     left: "2%",
+ 
   },
+
   linearGradient: {
     flex: 1,
     alignItems: "center",
@@ -142,3 +148,7 @@ const styles = StyleSheet.create({
     top: "-5%",
   },
 });
+
+
+const stylesDarkMode = StyleSheet
+
