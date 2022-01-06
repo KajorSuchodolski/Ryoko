@@ -5,6 +5,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   Dimensions,
+  Image,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome } from "@expo/vector-icons";
@@ -13,6 +14,7 @@ import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { addLocations } from "../../api/LocationApi";
 import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 
 const { width, height } = Dimensions.get("window");
 
@@ -24,17 +26,24 @@ export default AddLocationScreen = (props) => {
   const navigation = useNavigation();
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
-    console.log(result);
+    const resizedPhoto = await ImageManipulator.manipulateAsync(
+      result.uri,
+      [{ resize: { width: 700 } }],
+      { compress: 0.7, format: "jpeg" }
+    );
+    console.log("Manipulated");
+    console.log(resizedPhoto);
+
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      setImage(resizedPhoto.uri);
     }
   };
 
@@ -77,7 +86,18 @@ export default AddLocationScreen = (props) => {
               transform: [{ rotate: "-77deg" }],
             }}
           >
-            <View style={styles.imagePicker}></View>
+            <TouchableWithoutFeedback onPress={pickImage}>
+              <Image
+                style={styles.imagePicker}
+                source={
+                  image
+                    ? { uri: image }
+                    : {
+                        uri: "https://internationalcrickethall.com/wp-content/uploads/2018/02/no-image-box.png",
+                      }
+                }
+              ></Image>
+            </TouchableWithoutFeedback>
           </View>
         </View>
       </View>
@@ -96,7 +116,9 @@ export default AddLocationScreen = (props) => {
           input={description}
           onChangeText={(text) => setDescription(text)}
         />
-        <TouchableOpacity onPress={() => addLocations(title, description)}>
+        <TouchableOpacity
+          onPress={() => addLocations(title, description, image)}
+        >
           <View style={styles.addButton}>
             <FontAwesome
               name="angle-right"
@@ -153,9 +175,11 @@ const styles = StyleSheet.create({
   },
 
   imagePicker: {
-    width: "50%",
-    height: "75%",
-
+    width: "140%",
+    height: "40%",
+    transform: [{ rotate: "90deg" }],
+    left: "-20%",
+    top: "29%",
   },
 
   inputContainer: {

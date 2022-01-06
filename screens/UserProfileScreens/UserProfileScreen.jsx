@@ -21,8 +21,6 @@ const UserProfileScreen = (props) => {
   const [switchValue, setSwitchValue] = useState(false);
   const navigation = useNavigation();
 
-  const {logOut} = useAuth();
-
   const tokyoRegion = {
     latitude: 35.6762,
     longitude: 139.6503,

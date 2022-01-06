@@ -1,12 +1,13 @@
 import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
-export const CustomMarker = () => {
+export const CustomMarker = (props) => {
   return (
     <View>
-      <FontAwesome size={50} name="map-marker" color="orange"></FontAwesome>
+      <FontAwesome size={52} name="map-marker" color="orange"></FontAwesome>
+      
     </View>
   );
 };

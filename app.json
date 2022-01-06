@@ -20,7 +20,7 @@
       "supportsTablet": true
     },
     "android": {
-      "permissions": ["ACCESS_FINE_LOCATION", "LOCATION" ],
+      "permissions": ["ACCESS_FINE_LOCATION", "LOCATION", "INTERNET" ],
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
         "foregroundImage": "./adaptive-icon.png",

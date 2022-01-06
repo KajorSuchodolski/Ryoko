@@ -29,7 +29,7 @@ const SignUpScreen = () => {
 
   const navigation = useNavigation();
 
-  const {googleLogIn, signUp} = useAuth();
+  const { googleLogIn, signUp } = useAuth();
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -91,9 +91,12 @@ const SignUpScreen = () => {
           </Text>
         </View>
         <View style={styles.otherOptionsContainer}>
-          <ExternalSignButton name="facebook" colors={["#0575E6", "#021B79"]} />
-          <ExternalSignButton name="google" onPress={googleLogIn} colors={["#ED213A", "#93291E"]} />
-          <ExternalSignButton name="github" colors={["#0099F7", "#F11712"]} />
+          <ExternalSignButton
+            name="google"
+            onPress={googleLogIn}
+            colors={["#ED213A", "#93291E"]}
+            text="Sign Up with Google"
+          />
         </View>
       </LinearGradient>
     </TouchableWithoutFeedback>
@@ -115,7 +118,7 @@ const styles = StyleSheet.create({
     height: height,
   },
   signUpContainter: {
-    flex: 2,
+    flex: 1.2,
     justifyContent: "flex-start",
     alignContent: "stretch",
     top: "7%",
@@ -126,10 +129,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   otherOptionsContainer: {
-    flex: 0.3,
+    flex: 0.5,
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "flex-end",
-    top: "-4%",
+    top: "-24%",
   },
 });

@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import SettingsComponent from "../../components/SettingsComponents/SettingsComponent";
 import { useNavigation } from "@react-navigation/core";
-
-
 import {
   StyleSheet,
   View,
@@ -14,31 +12,19 @@ import {
   TouchableWithoutFeedback
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { useAuth } from "../../context/authContext";
 
 const { height, width } = Dimensions.get("window");
 
-const logOut = () => {
-  auth
-    .signOut()
-    .then(() => {
-      console.log("User logged out succesfully!");
-      navigation.navigate("Log in");
-    })
-    .catch((error) => console.log(error));
-};
+
 
 
 const SettingsScreen = (props) => {
 
   const navigation = useNavigation();
+  const {logOut} = useAuth();
 
-  let [fontsLoaded, error] = useFonts({
-    Raleway_400Regular,
-  });
-
-  if(!fontsLoaded) {
-    return null;
-  }
+  
 
   return (
     <LinearGradient
@@ -74,7 +60,7 @@ const SettingsScreen = (props) => {
       <SettingsComponent iconName={"file"} subtitleTextContent={"Miscellaneous"} 
         isSwitchOne={true} isSwitchTwo={false}
         optionTextContentOne={"Dark Mode"} optionTextContentTwo={"Logout"} 
-        style={styles.settingOneComponentStyle} onPress={logOut()}/>
+        style={styles.settingOneComponentStyle} onPressTwo={logOut()}/>
    </View>
   </LinearGradient>
   );

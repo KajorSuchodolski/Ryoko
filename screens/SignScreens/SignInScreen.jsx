@@ -28,8 +28,8 @@ const SignInScreen = () => {
 
   const {googleLogIn} = useAuth();
 
-  const logIn = () => {
-    auth
+  const logIn = async () => {
+    await auth
       .signInWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const { email } = userCredentials;
@@ -76,14 +76,13 @@ const SignInScreen = () => {
           </Text>
         </View>
         <View style={styles.otherOptionsContainer}>
-          <ExternalSignButton name="facebook" colors={["#0575E6", "#021B79"]} />
           <ExternalSignButton
             onPress={googleLogIn
             }
             name="google"
             colors={["#ED213A", "#93291E"]}
+            text="Sign In with Google"
           />
-          <ExternalSignButton name="github" colors={["#0099F7", "#F11712"]} />
         </View>
         <Text
           style={{ fontFamily: "Raleway_400Regular", fontSize: 19, top: "-5%" }}

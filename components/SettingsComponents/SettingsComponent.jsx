@@ -33,7 +33,7 @@ const SettingsComponent  = (props) => {
         <View style={styles.settingOptions}>
         
           <SettingsOption isSwitch={props.isSwitchOne} optionTextContent={props.optionTextContentOne}/>
-          <SettingsOption isSwitch={props.isSwitchTwo} optionTextContent={props.optionTextContentTwo}/>
+          <SettingsOption isSwitch={props.isSwitchTwo} optionTextContent={props.optionTextContentTwo} onPress={props.onPressTwo}/>
         </View>
    </View>
   );
