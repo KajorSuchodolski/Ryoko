@@ -1,4 +1,4 @@
 # Ryoko
 
 ## UWAGA
-Projekt znajduje się na gałęzi master, nie main!!!
+Aktualny projekt znajduje się na gałęzi auth-context-branch, nie main!!!
