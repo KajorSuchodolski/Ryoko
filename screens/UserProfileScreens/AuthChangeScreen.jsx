@@ -1,30 +1,23 @@
-import React, { useState, useEffect, useContext } from "react";
-import SignComponent from "../components/SignComponents/SignComponent";
-import SignButton from "../components/SignComponents/SignButton";
+import React, { useState, useContext } from "react";
+import SignComponent from "../../components/SignComponents/SignComponent";
+import SignButton from "../../components/SignComponents/SignButton";
 
-import { auth } from "../service/firebase/firebase";
+import { auth } from "../../config/firebase";
 import { useNavigation } from "@react-navigation/core";
 import { Alert } from "react-native";
-import { IsDarkModeOn } from "../Context";
+import { IsDarkModeOn } from "../../context/isDarkModeOn";
 
 import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  Image,
-  Link,
 } from "react-native";
 import { Dimensions } from "react-native-web";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome } from "@expo/vector-icons";
-import {
-  Raleway_400Regular,
-  Raleway_700Bold,
-} from "@expo-google-fonts/raleway";
-import ExternalSignButton from "../components/SignComponents/ExternalSignButton";
+
 
 const { height, width } = Dimensions.get("window");
 
@@ -79,9 +72,9 @@ const AuthChangeScreen = ({route}) => {
             ></FontAwesome>
     </TouchableWithoutFeedback>
         {route.params === 'password' ? 
-        <Text style={[styles.settingsMainTitle, darkModeOn ? {color: "grey"} : {color: "black"}]}>
+        <Text style={styles.settingsMainTitle}>
         Change password</Text>: 
-        <Text style={[styles.settingsMainTitle, darkModeOn ? {color: "grey"} : {color: "black"}]}>
+        <Text style={styles.settingsMainTitle}>
           Change email </Text>}        
         <View style={styles.changeContainer}>
           {/* <SignComponent
@@ -130,6 +123,7 @@ const styles = StyleSheet.create({
 
     fontFamily: "Raleway_400Regular",
     fontWeight: "bold",
+    color: "black"
   },
 
   arrow: {

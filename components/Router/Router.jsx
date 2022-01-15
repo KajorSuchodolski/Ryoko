@@ -8,6 +8,8 @@ import UserProfileScreen from "../../screens/UserProfileScreens/UserProfileScree
 import AddLocationScreen from "../../screens/UserProfileScreens/AddLocationScreen";
 import SettingsScreen from "../../screens/UserProfileScreens/SettingsScreen";
 import LocationInfoScreen from "../../screens/UserProfileScreens/LocationInfoScreen";
+import AuthChangeScreen from "../../screens/UserProfileScreens/AuthChangeScreen";
+import ShowCommentsScreen from "../../screens/UserProfileScreens/ShowCommentsScreen";
 
 export const Router = () => {
   const { currentUser } = useAuth();
@@ -34,10 +36,21 @@ export const Router = () => {
               name="Settings"
               component={SettingsScreen}
             />
+
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="Auth Change"
+              component={AuthChangeScreen}
+            />
             <Stack.Screen
               options={{ headerShown: false }}
               name="Location Info"
               component={LocationInfoScreen}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="Show Comments Screen"
+              component={ShowCommentsScreen}
             />
           </>
         ) : (

@@ -8,7 +8,7 @@ export const getLocations = async () => {
   return data;
 };
 
-export const addLocations = async (title, description, uri) => {
+export const addLocations = async (title, description, uri, currentUser) => {
 
 
   if(title === '' || description === '') {
@@ -21,6 +21,7 @@ export const addLocations = async (title, description, uri) => {
     return;
   }
 
+  console.log(currentUser);
   const markerId = uuid.v1();
   const location = await Location.getCurrentPositionAsync({});
 
@@ -34,7 +35,9 @@ export const addLocations = async (title, description, uri) => {
     description: description,
     latitude: location.coords.latitude,
     longitude: location.coords.longitude,
-    imageUrl: image
+    imageUrl: image,
+    creatorNickname: currentUser.displayName,
+    creatorAvatar: currentUser.photoURL
   };
   
 

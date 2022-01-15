@@ -1,12 +1,8 @@
 import { useFonts, Raleway_400Regular } from "@expo-google-fonts/raleway";
-<<<<<<< HEAD:components/SettingsComponents/SettingsOption.jsx
-import React, { useState, useEffect } from "react";
-=======
 import React, { useState, useEffect, useContext } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { IsDarkModeOn } from '../../Context';
+import { IsDarkModeOn } from '../../context/isDarkModeOn';
 
->>>>>>> origin/kajav2:src/components/SettingsComponents/SettingsOption.jsx
 import {
   StyleSheet,
   View,
@@ -26,14 +22,14 @@ const SettingsOption  = (props) => {
 
   return (
     <View style={styles.settingsComponent}>
-      <Text style={[styles.title, darkModeOn ? {color : "grey"} : {color : "black"}]}>
+      <Text style={styles.title}>
         {props.optionTextContent}</Text>
       <View style={styles.switchOrIcon}>
         {props.isSwitch ? <Switch value={props.isSwitchOn} color="white" onValueChange={props.onToggleSwitch} style={styles.switch}/> : 
         (<TouchableOpacity onPress={props.onPressIcon}><FontAwesome
             name="angle-right"
             size={33}
-            style={darkModeOn ? {color: "grey"} : {color: "black"}}
+            style={{color: "black"}}
             ></FontAwesome></TouchableOpacity>)}
         </View>
     </View>
@@ -52,6 +48,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 19,
     fontFamily: "Raleway_400Regular",
+    color: "black"
     },
 
   switch: {

@@ -1,12 +1,12 @@
 import { useFonts, Raleway_400Regular } from "@expo-google-fonts/raleway";
 import React, { useState, useEffect, ReactPropTypes, useContext } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import SettingsComponent from "../components/SettingsComponents/SettingsComponent";
+import SettingsComponent from "../../components/SettingsComponents/SettingsComponent";
 import { Switch } from "react-native-paper";
 import { useNavigation } from "@react-navigation/core";
-import { auth } from "../service/firebase/firebase";
+import { auth } from "../../config/firebase";
 import { Alert } from "react-native";
-import { IsDarkModeOn } from '../Context';
+import { IsDarkModeOn } from '../../context/isDarkModeOn';
 
 import {
   StyleSheet,
@@ -38,15 +38,14 @@ const SettingsScreen = (props) => {
     auth
       .signOut()
       .then(() => {
-        Alert.alert("Message", "User logged out successfully");
-        navigation.navigate("Log in");
+        console.log("User logged out successfully");
       })
       .catch((error) => console.log(error));
   };
 
   return (
     <LinearGradient
-        colors={darkModeOn ? ["#000000", "#1f1f1f"] : ["#ffdd00", "#eaa923"]}
+        colors={["#ffdd00", "#eaa923"]}
         useAngle={true}
         angle={45}
         angleCenter={{ x: 0.5, y: 0.5 }}
@@ -56,10 +55,10 @@ const SettingsScreen = (props) => {
         <FontAwesome
           name="arrow-left"
           size={33}
-          style={[styles.arrow, darkModeOn ? {color : "grey"} : {color : "black"}]}
+          style={styles.arrow}
         ></FontAwesome>
       </TouchableWithoutFeedback>
-      <Text style={[styles.settingsMainTitle, darkModeOn ? {color : "grey"} : {color : "black"}]}>
+      <Text style={styles.settingsMainTitle}>
         Settings</Text>
       <View style={styles.settingsComponentsStyle}>
         <SettingsComponent
@@ -120,6 +119,7 @@ const styles = StyleSheet.create({
 
     fontFamily: "Raleway_400Regular",
     fontWeight: "bold",
+    color: "black"
   },
 
   settingsComponentsStyle: {

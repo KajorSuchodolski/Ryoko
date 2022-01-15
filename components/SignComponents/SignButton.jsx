@@ -3,16 +3,14 @@ import React, {useContext} from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Dimensions } from "react-native-web";
 import { FontAwesome } from "@expo/vector-icons";
-import { IsDarkModeOn } from "../../Context";
 const { width, height } = Dimensions.get("window");
 
 const SignButton = (props) => {
 
-  const darkModeOn = useContext(IsDarkModeOn)
   
   return (
-    <TouchableOpacity style={[styles.signButton, darkModeOn ? {backgroundColor: "#282828"} : {backgroundColor: "black"}]} onPress={props.onPress}>
-      <Text style={[styles.text, darkModeOn ? {color: "grey"} : {color: "black"}]}>{props.text}</Text>
+    <TouchableOpacity style={styles.signButton} onPress={props.onPress}>
+      <Text style={styles.text}>{props.text}</Text>
       <FontAwesome
         name="angle-right"
         size={0.48 * height}

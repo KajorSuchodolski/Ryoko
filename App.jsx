@@ -1,19 +1,34 @@
-import React from "react";
-import { StyleSheet, LogBox } from "react-native";
-
+import React, { useState, useEffect } from "react";
+import { Dimensions, Appearance } from "react-native";
+import { StyleSheet, Text, View, Image, Button } from "react-native";
 import {
   useFonts,
   Raleway_400Regular,
   Raleway_700Bold,
 } from "@expo-google-fonts/raleway";
-
-import { Router } from "./components/Router/Router";
+import { EventListener, EventRegister } from "react-native-event-listeners";
+import { LogBox } from "react-native";
 import { AuthProvider } from "./context/authContext";
+import { IsDarkModeOn } from "./context/isDarkModeOn";
+import { Router } from "./components/Router/Router";
 
 const App = () => {
+  const [darkModeOn, setDarkModeOn] = React.useState(false);
 
-  LogBox.ignoreLogs(['Setting a timer']);
-  
+  LogBox.ignoreLogs(["Setting a timer"]);
+
+  useEffect(() => {
+    let eventListener = EventRegister.addEventListener(
+      "changeDarkTheme",
+      (data) => {
+        setDarkModeOn(data);
+      }
+    );
+    return () => {
+      EventRegister.removeEventListener(eventListener);
+    };
+  });
+
   let [fontsLoaded, error] = useFonts({
     Raleway_400Regular,
     Raleway_700Bold,
@@ -24,9 +39,11 @@ const App = () => {
   }
 
   return (
-    <AuthProvider>
-      <Router />
-    </AuthProvider>
+    <IsDarkModeOn.Provider value={darkModeOn}>
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
+    </IsDarkModeOn.Provider>
   );
 };
 

@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }) => {
         const { type, user } = result;
 
         if (type === "success") {
-          const { email, name, photoUrl } = user;
           console.log("Logged in with: ", user);
           setCurrentUser(user);
         } else {
@@ -34,14 +33,15 @@ export const AuthProvider = ({ children }) => {
       .catch((error) => alert(error.message));
   };
 
-  const signUp = (email, password) => {
-    auth
+  const signUp = async (email, password, login) => {
+    await auth
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log("Registered user: ", user.email);
       })
       .catch((error) => alert(error.message));
+     await setTimeout(auth.onAuthStateChanged(user => user.updateProfile({displayName: login}).then(() => console.log("Nickname added")).catch(err => alert(err.message))), 6000);
   };
 
   const logOut = () => {

@@ -11,6 +11,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  ScrollView,
+  Image
 } from "react-native";
 import { Dimensions } from "react-native-web";
 import { LinearGradient } from "expo-linear-gradient";
@@ -23,6 +25,7 @@ import { useAuth } from "../../context/authContext";
 const { height, width } = Dimensions.get("window");
 
 const SignUpScreen = () => {
+  const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -32,7 +35,7 @@ const SignUpScreen = () => {
   const { googleLogIn, signUp } = useAuth();
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <ScrollView onPress={Keyboard.dismiss}>
       <LinearGradient
         colors={["#ffdd00", "#eaa923"]}
         useAngle={true}
@@ -40,6 +43,9 @@ const SignUpScreen = () => {
         angleCenter={{ x: 0.5, y: 0.5 }}
         style={styles.linearGradient}
       >
+        {/* <Image source={{uri: }}>
+
+        </Image> */}
         <TouchableWithoutFeedback>
           <FontAwesome
             name="arrow-left"
@@ -49,12 +55,13 @@ const SignUpScreen = () => {
           ></FontAwesome>
         </TouchableWithoutFeedback>
         <View style={styles.signUpContainter}>
-          {/* <SignComponent
+          <SignComponent
             label="Login"
             fontName="user"
             placeHolder="UserLogin"
             secureTextEntry={false}
-          /> */}
+            onChangeText={(text) => setLogin(text)}
+          />
           <SignComponent
             label="Email"
             fontName="envelope"
@@ -82,7 +89,7 @@ const SignUpScreen = () => {
             text="Sign Up"
             onPress={() => {
               password === passwordConfirm
-                ? signUp(email, password)
+                ? signUp(email, password, login)
                 : Alert.alert("Alert", "Passwords don't match!");
             }}
           />
@@ -99,7 +106,7 @@ const SignUpScreen = () => {
           />
         </View>
       </LinearGradient>
-    </TouchableWithoutFeedback>
+    </ScrollView>
   );
 };
 
@@ -112,13 +119,13 @@ const styles = StyleSheet.create({
     left: "6%",
   },
   linearGradient: {
-    flex: 1,
+    // flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
-    height: height,
+    padding: 20,
   },
   signUpContainter: {
-    flex: 1.2,
+    flex: 1,
     justifyContent: "flex-start",
     alignContent: "stretch",
     top: "7%",
@@ -127,12 +134,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    top: 20,
   },
   otherOptionsContainer: {
-    flex: 0.5,
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "flex-end",
-    top: "-24%",
+    top: -30,
   },
 });

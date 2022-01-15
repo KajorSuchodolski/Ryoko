@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { addLocations } from "../../api/LocationApi";
 import * as ImagePicker from "expo-image-picker";
 import * as ImageManipulator from "expo-image-manipulator";
+import { useAuth } from "../../context/authContext";
 
 const { width, height } = Dimensions.get("window");
 
@@ -22,6 +23,7 @@ export default AddLocationScreen = (props) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
+  const {currentUser} = useAuth();
 
   const navigation = useNavigation();
 
@@ -117,7 +119,7 @@ export default AddLocationScreen = (props) => {
           onChangeText={(text) => setDescription(text)}
         />
         <TouchableOpacity
-          onPress={() => addLocations(title, description, image)}
+          onPress={() => addLocations(title, description, image, currentUser)}
         >
           <View style={styles.addButton}>
             <FontAwesome

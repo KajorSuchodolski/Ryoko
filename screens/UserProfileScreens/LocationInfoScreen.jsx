@@ -1,53 +1,151 @@
 import React from "react";
-import { Image, StyleSheet, View, Text, TouchableWithoutFeedback } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome } from "@expo/vector-icons";
-import { Raleway_400Regular } from "@expo-google-fonts/raleway";
 import { useNavigation } from "@react-navigation/native";
 
-export default LocationInfoScreen = ({route}) => {
+export default LocationInfoScreen = ({ route }) => {
   const navigation = useNavigation();
 
-  const {imageUrl, title, description} = route.params;
+  const { imageUrl, title, description, creatorNickname, creatorAvatar } =
+    route.params;
 
   return (
-    <LinearGradient
-      colors={["#ffdd00", "#eaa923"]}
-      useAngle={true}
-      angle={45}
-      angleCenter={{ x: 0.5, y: 0.5 }}
-      style={styles.linearGradient}
-    >
-      <View>
+    <ScrollView>
+      <LinearGradient
+        colors={["#ffdd00", "#eaa923"]}
+        useAngle={true}
+        angle={45}
+        angleCenter={{ x: 0.5, y: 0.5 }}
+        style={styles.linearGradient}
+      >
         <TouchableWithoutFeedback
           onPress={() => {
-            navigation.navigate("User Profile");
+            navigation.goBack();
           }}
         >
-          <FontAwesome name="arrow-left" size={40} style={{ left: "-40%" }} />
+          <FontAwesome
+            name="remove"
+            size={35}
+            style={{ left: "40%", paddingTop: 40, paddingBottom: 5 }}
+          />
         </TouchableWithoutFeedback>
-      </View>
-      <Text style={styles.title}>{title}</Text>
-      <View>
-        <Image
-          style={styles.image}
-          source={{uri: imageUrl}}
-        ></Image>
-      </View>
-      <View>
-        <Text style={styles.description}>
-          {description}
-        </Text>
-      </View>
-    </LinearGradient>
+        <View style={styles.userWrapper}>
+          <Image
+            style={styles.avatar}
+            source={{
+              uri: creatorAvatar,
+            }}
+          ></Image>
+          <Text style={styles.nickname}>{creatorNickname}</Text>
+        </View>
+        <View></View>
+        <Text style={styles.title}>{title}</Text>
+        <View>
+          <Image
+            style={styles.image}
+            source={{
+              uri: imageUrl,
+            }}
+          ></Image>
+        </View>
+        <View
+          style={{
+            width: "75%",
+            borderBottomColor: "#242526",
+            borderBottomWidth: 1.2,
+          }}
+        >
+          <Text style={styles.description}>{description}</Text>
+        </View>
+        <View style={styles.thumbsWrapper}>
+          <FontAwesome
+            style={styles.thumbs}
+            size={40}
+            name="thumbs-up"
+          ></FontAwesome>
+          <FontAwesome
+            style={styles.thumbs}
+            size={40}
+            name="thumbs-down"
+          ></FontAwesome>
+        </View>
+        <View style={styles.thumbsWrapper}>
+          <Text
+            style={{
+              fontSize: 20,
+              marginRight: "8%",
+              textAlign: "center",
+            }}
+          >
+            100
+          </Text>
+          <Text
+            style={{
+              fontSize: 20,
+              marginLeft: "6%",
+              textAlign: "center",
+            }}
+          >
+            1
+          </Text>
+        </View>
+        <View style={styles.buttonWrapper}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.push("Show Comments Screen", {
+                imageUrl: imageUrl,
+                title: title
+              });
+            }}
+            style={{ paddingHorizontal: 43, paddingTop: 12 }}
+          >
+            <View style={styles.button}>
+              <FontAwesome name="list" style={styles.buttonFont}></FontAwesome>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{ paddingHorizontal: 43, paddingTop: 12 }}>
+            <View style={styles.button}>
+              <FontAwesome
+                name="paper-plane"
+                style={styles.buttonFont}
+              ></FontAwesome>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.labelWrapper}>
+          <Text style={{ ...styles.buttonLabel, left: -70 }}>
+            Show comments
+          </Text>
+          <Text style={{ ...styles.buttonLabel, left: 6 }}>Go!</Text>
+        </View>
+      </LinearGradient>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  thumbsWrapper: {
+    flexDirection: "row",
+    paddingTop: 10,
+  },
+  thumbs: {
+    marginHorizontal: 20,
+  },
   linearGradient: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingBottom: 50,
   },
   title: {
     fontFamily: "Raleway_700Bold",
@@ -56,13 +154,51 @@ const styles = StyleSheet.create({
     paddingBottom: 35,
   },
   image: {
-    width: 180,
-    height: 180,
+    width: 190,
+    height: 190,
     borderRadius: 360,
+    borderWidth: 3,
+    borderColor: "white",
   },
   description: {
     fontFamily: "Raleway_400Regular",
-    fontSize: 17,
+    fontSize: 22,
+    padding: 22,
+  },
+  userWrapper: { flexDirection: "row" },
+  avatar: { width: 43, height: 43, borderRadius: 360 },
+  nickname: {
+    fontFamily: "Raleway_700Bold",
+    fontSize: 19,
+    textAlign: "center",
+    paddingHorizontal: 15,
+    top: 5,
+  },
+
+  buttonWrapper: {
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  button: {
+    width: 100,
+    height: 100,
+    backgroundColor: "black",
+    borderRadius: 360,
+  },
+  buttonFont: {
+    color: "white",
+    fontSize: 45,
+    top: "30%",
+    left: "26%",
+  },
+  labelWrapper: {
+    flexDirection: "row",
     padding: 25,
+  },
+  buttonLabel: {
+    fontFamily: "Raleway_400Regular",
+    fontSize: 22,
+    top: -16,
   },
 });

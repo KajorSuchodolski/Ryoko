@@ -9,26 +9,22 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { IsDarkModeOn } from "../../Context";
 
 const { height, width } = Dimensions.get("window");
 
 const SignComponent = (props) => {
-  const darkModeOn = useContext(IsDarkModeOn);
 
   const [isSecureEntry, setSecureEntry] = useState(props.secureTextEntry);
   const [eyeName, setEyeName] = useState("eye");
 
   return (
     <View style={styles.signComponent}>
-      <Text style={[styles.labelTextInput, darkModeOn ? {color : "grey"} : {color : "black"}]}>
-        {props.label}</Text>
-      <View style={[styles.textInputBox, darkModeOn ? {backgroundColor: "#282828"} : {backgroundColor: "white"}]}>
+      <Text style={styles.labelTextInput}>{props.label}</Text>
+      <View style={styles.textInputBox}>
         <FontAwesome
           name={props.fontName}
-          size={0.040 * height}
-          style={[{ position: "absolute", top: "25%", left: "8%" }, 
-          darkModeOn ? {color: "#181818"} : {color: "black"}]}
+          size={0.04 * height}
+          style={{ position: "absolute", top: "25%", left: "8%" }}
         />
         <TextInput
           {...props}
@@ -44,8 +40,7 @@ const SignComponent = (props) => {
               !isSecureEntry ? setEyeName("eye") : setEyeName("eye-slash");
             }}
           >
-            <FontAwesome name={eyeName} size={0.040 * height}
-            style={darkModeOn ? {color : "#181818"} : {color : "black"}}></FontAwesome>
+            <FontAwesome name={eyeName} size={0.04 * height}></FontAwesome>
           </TouchableOpacity>
         )}
       </View>
@@ -73,6 +68,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     width: 350,
     height: height * 0.08,
+    backgroundColor: "#FFFFFF",
     borderRadius: 360,
 
     /*  SHADOW */

@@ -1,38 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   View,
   Text,
   Dimensions,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Modal,
 } from "react-native";
 import GoogleMap from "../../components/Map/GoogleMap";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import { IsDarkModeOn } from "../../context/isDarkModeOn";
 import { useAuth } from "../../context/authContext";
-import { getLocations, data } from "../../api/LocationApi";
 
 const { height, width } = Dimensions.get("window");
 
 const UserProfileScreen = (props) => {
-  let isDarkMode = props.isDarkMode ? true : false;
   const [switchValue, setSwitchValue] = useState(false);
-  const navigation = useNavigation();
+  const [modal, setModal] = useState(true);
 
-  const tokyoRegion = {
-    latitude: 35.6762,
-    longitude: 139.6503,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
+  const navigation = useNavigation();
+  const darkMode = useContext(IsDarkModeOn);
+  const {currentUser} = useAuth();
+
+  // const tokyoRegion = {
+  //   latitude: 35.6762,
+  //   longitude: 139.6503,
+  //   latitudeDelta: 0.01,
+  //   longitudeDelta: 0.01,
+  // };
+
+  const updateTest = async () => {
+
+    console.log(currentUser);
+    currentUser.updateProfile({ryokoNickname: "Radek460"}).then(() => console.log("Nickname changed!")).catch(err => alert(err.message));
+
   };
 
   return (
     <View style={styles.container}>
-      <GoogleMap darkMode={isDarkMode} />
+      <GoogleMap darkMode={darkMode}/>
       <LinearGradient
-        colors={isDarkMode ? ["#121212", "#121212"] : ["#FFFFFF", "#FFFFFF"]}
+        colors={darkMode ? ["#181818", "#181818"] : ["#FFFFFF", "#FFFFFF"]}
         style={styles.footer}
       >
         <TouchableOpacity style={{ left: "38%" }}>
@@ -40,16 +51,16 @@ const UserProfileScreen = (props) => {
             <Image
               source={require("../../assets/images/pulse.png")}
               style={{ height: 50, width: 50 }}
-              tintColor={props.isDarkMode ? "#F5F6F7" : "black"}
+              tintColor={darkMode ? "#B3B3B3" : "black"}
             ></Image>
-            <Text
-              style={isDarkMode ? { color: "#F5F6F7" } : { color: "black" }}
-            >
+            <Text style={darkMode ? { color: "#B3B3B3" } : { color: "black" }}>
               Activity
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate("Add Location")}>
+        <TouchableWithoutFeedback
+          onPress={() => navigation.navigate("Add Location")}
+        >
           <LinearGradient colors={["#ffdd00", "#eaa923"]} style={styles.addBtn}>
             <FontAwesome5
               name="plus"
@@ -58,19 +69,21 @@ const UserProfileScreen = (props) => {
             ></FontAwesome5>
           </LinearGradient>
         </TouchableWithoutFeedback>
-        <TouchableOpacity style={{ left: "-30%" }} onPress={() => navigation.navigate("Settings")}>
+        <TouchableOpacity
+          style={{ left: "-30%" }}
+          onPress={() => navigation.navigate("Settings")}
+        >
           <View style={styles.footerBtn}>
             <Image
               source={require("../../assets/images/cog.png")}
               style={{ height: 50, width: 50 }}
-              tintColor={props.isDarkMode ? "#F5F6F7" : "black"}
+              tintColor={darkMode ? "#B3B3B3" : "black"}
             ></Image>
-            <Text
-              style={isDarkMode ? { color: "#F5F6F7" } : { color: "black" }}
-            >
+            <Text style={darkMode ? { color: "#B3B3B3" } : { color: "black" }}>
               Settings
             </Text>
           </View>
+          
         </TouchableOpacity>
       </LinearGradient>
     </View>
@@ -126,5 +139,34 @@ const styles = StyleSheet.create({
     shadowRadius: 7.49,
 
     elevation: 16,
+  },
+  modal: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalView: {
+    width: 340,
+    height: 450,
+    borderRadius: 45,
+    backgroundColor: "black",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontFamily: "Raleway_700Bold",
+    fontSize: 48,
+    paddingTop: 5,
+    paddingBottom: 35,
+  },
+  image: {
+    width: 180,
+    height: 180,
+    borderRadius: 360,
+  },
+  description: {
+    fontFamily: "Raleway_400Regular",
+    fontSize: 17,
+    padding: 25,
   },
 });
