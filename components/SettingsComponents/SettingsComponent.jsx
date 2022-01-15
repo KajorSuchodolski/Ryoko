@@ -10,6 +10,7 @@ import {
   Text,
   Dimensions,
   TouchableOpacity,
+  ProgressViewIOSComponent,
 } from "react-native";
 
 import { FontAwesome } from "@expo/vector-icons";
@@ -17,23 +18,20 @@ const { height, width } = Dimensions.get("window");
 
 const SettingsComponent  = (props) => {
 
-  let [fontsLoaded, error] = useFonts({
-    Raleway_400Regular,
-  });
-
-  if(!fontsLoaded) {
-    return null;
-  }
-
-
   return (
     <View style={styles.settingComponent}>
         <SettingsSubtitle iconName={props.iconName} subtitleTextContent={props.subtitleTextContent} style={styles.title}/>
         <View style={styles.line}/>
         <View style={styles.settingOptions}>
         
-          <SettingsOption isSwitch={props.isSwitchOne} optionTextContent={props.optionTextContentOne}/>
-          <SettingsOption isSwitch={props.isSwitchTwo} optionTextContent={props.optionTextContentTwo} onPress={props.onPressTwo}/>
+          <SettingsOption isSwitchOn={props.isSwitchOnOne} onToggleSwitch={props.onToggleSwitchOne} 
+          isSwitch={props.isSwitchOne} onPressIcon={props.onPressIconOne} 
+          optionTextContent={props.optionTextContentOne}/>
+          
+          <SettingsOption isSwitchon={props.isSwitchOnTwo} onToggleSwitch={props.onToggleSwitchTwo} 
+          isSwitch={props.isSwitchTwo} onPressIcon={props.onPressIconTwo} 
+          optionTextContent={props.optionTextContentTwo}/>
+
         </View>
    </View>
   );

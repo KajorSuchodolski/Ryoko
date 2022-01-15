@@ -1,6 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, createContext } from "react";
 import SignComponent from "../../components/SignComponents/SignComponent";
 import SignButton from "../../components/SignComponents/SignButton";
+<<<<<<< HEAD:screens/SignScreens/SignInScreen.jsx
+=======
+import { IsDarkModeOn } from '../../Context';
+import { auth } from "../../service/firebase/firebase";
+>>>>>>> origin/kajav2:src/screens/SignScreens/SignInScreen.jsx
 import { useNavigation } from "@react-navigation/core";
 
 import {
@@ -27,6 +32,15 @@ const SignInScreen = () => {
   const navigation = useNavigation();
 
   const {googleLogIn} = useAuth();
+  const darkModeOn = useContext(IsDarkModeOn);  
+  console.log(darkModeOn);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) { 
+        navigation.navigate("User Profile");
+      }
+    });
 
   const logIn = async () => {
     await auth
@@ -70,8 +84,14 @@ const SignInScreen = () => {
           />
         </View>
         <View style={styles.footerContainer}>
+<<<<<<< HEAD:screens/SignScreens/SignInScreen.jsx
           <SignButton text="Sign In" onPress={logIn} />
           <Text style={{ fontFamily: "Raleway_400Regular", fontSize: 17 }}>
+=======
+          <SignButton text="Sign In" onPress={handleLogin} />
+          <Text style={darkModeOn ? { fontFamily: "Raleway_400Regular", fontSize: 17, color: "#C0C0C0"}
+          : { fontFamily: "Raleway_400Regular", fontSize: 17 }}>
+>>>>>>> origin/kajav2:src/screens/SignScreens/SignInScreen.jsx
             - or sign in with -
           </Text>
         </View>
@@ -111,7 +131,9 @@ const styles = StyleSheet.create({
     height: "30%",
     top: "4%",
     left: "2%",
+ 
   },
+
   linearGradient: {
     flex: 1,
     alignItems: "center",
@@ -136,3 +158,7 @@ const styles = StyleSheet.create({
     top: "-5%",
   },
 });
+
+
+const stylesDarkMode = StyleSheet
+

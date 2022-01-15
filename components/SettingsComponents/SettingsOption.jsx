@@ -1,5 +1,12 @@
 import { useFonts, Raleway_400Regular } from "@expo-google-fonts/raleway";
+<<<<<<< HEAD:components/SettingsComponents/SettingsOption.jsx
 import React, { useState, useEffect } from "react";
+=======
+import React, { useState, useEffect, useContext } from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import { IsDarkModeOn } from '../../Context';
+
+>>>>>>> origin/kajav2:src/components/SettingsComponents/SettingsOption.jsx
 import {
   StyleSheet,
   View,
@@ -15,25 +22,19 @@ import { Switch } from 'react-native-paper';
 
 const SettingsOption  = (props) => {
 
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
-
-  let [fontsLoaded] = useFonts({
-    Raleway_400Regular,
-  });
-
-  if(!fontsLoaded) {
-    return null;
-  }
+  const darkModeOn = useContext(IsDarkModeOn);  
 
   return (
     <View style={styles.settingsComponent}>
-      <Text style={styles.title}>{props.optionTextContent}</Text>
+      <Text style={[styles.title, darkModeOn ? {color : "grey"} : {color : "black"}]}>
+        {props.optionTextContent}</Text>
       <View style={styles.switchOrIcon}>
-        {props.isSwitch ? <Switch value={isSwitchOn} color="white" onValueChange={onToggleSwitch} style={styles.switch}/> : (<TouchableOpacity><FontAwesome
+        {props.isSwitch ? <Switch value={props.isSwitchOn} color="white" onValueChange={props.onToggleSwitch} style={styles.switch}/> : 
+        (<TouchableOpacity onPress={props.onPressIcon}><FontAwesome
             name="angle-right"
             size={33}
-            style={{padding: 5}}></FontAwesome></TouchableOpacity>)}
+            style={darkModeOn ? {color: "grey"} : {color: "black"}}
+            ></FontAwesome></TouchableOpacity>)}
         </View>
     </View>
   );
