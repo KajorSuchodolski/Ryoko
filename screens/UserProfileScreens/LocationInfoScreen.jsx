@@ -11,11 +11,13 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useLocation } from "../../context/locationContext";
 
 export default LocationInfoScreen = ({ route }) => {
   const navigation = useNavigation();
+  const {getRoute} = useLocation();
 
-  const { imageUrl, title, description, creatorNickname, creatorAvatar } =
+  const { imageUrl, title, description, creatorNickname, creatorAvatar, latitude, longitude, id } =
     route.params;
 
   return (
@@ -103,7 +105,8 @@ export default LocationInfoScreen = ({ route }) => {
             onPress={() => {
               navigation.push("Show Comments Screen", {
                 imageUrl: imageUrl,
-                title: title
+                title: title,
+                id: id
               });
             }}
             style={{ paddingHorizontal: 43, paddingTop: 12 }}
@@ -113,7 +116,13 @@ export default LocationInfoScreen = ({ route }) => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={{ paddingHorizontal: 43, paddingTop: 12 }}>
+          <TouchableOpacity
+            onPress={() => {
+              getRoute({latitude: latitude, longitude: longitude})
+              navigation.navigate('User Profile');
+            }}
+            style={{ paddingHorizontal: 43, paddingTop: 12 }}
+          >
             <View style={styles.button}>
               <FontAwesome
                 name="paper-plane"
@@ -145,13 +154,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingBottom: 50,
+    paddingBottom: 120,
   },
   title: {
     fontFamily: "Raleway_700Bold",
     fontSize: 48,
     paddingTop: 5,
     paddingBottom: 35,
+    paddingHorizontal: 30,
+    textAlign: "center"
   },
   image: {
     width: 190,

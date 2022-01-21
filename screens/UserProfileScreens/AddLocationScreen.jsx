@@ -119,7 +119,9 @@ export default AddLocationScreen = (props) => {
           onChangeText={(text) => setDescription(text)}
         />
         <TouchableOpacity
-          onPress={() => addLocations(title, description, image, currentUser)}
+          onPress={() => {
+           addLocations(title, description, image, currentUser);
+          }}
         >
           <View style={styles.addButton}>
             <FontAwesome

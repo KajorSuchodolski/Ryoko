@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -6,17 +7,23 @@ import {
   Image,
   TouchableWithoutFeedback,
   ScrollView,
-  TouchableOpacity,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
+import { getComments } from "../../api/LocationApi";
 
 const ShowCommentsScreen = ({ route }) => {
-
-  const {imageUrl, title} = route.params;
+  const { imageUrl, title, id } = route.params;
+  const [comments, setComments] = useState([]);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    getComments(id)
+      .then((data) => setComments(data))
+      .catch((err) => alert(err.message));
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -34,33 +41,37 @@ const ShowCommentsScreen = ({ route }) => {
       </LinearGradient>
       <ScrollView>
         <View style={styles.commentsWrapper}>
-          <View style={styles.commentBox}>
-            <View colors={["#ffdd00", "#eaa923"]} style={styles.commentHeader}>
+          { comments.map((comment) => (
+            <View style={styles.commentBox}>
+              <FontAwesome
+                  name={comment.isPositive ? "thumbs-up" : "thumbs-down"}
+                  style={comment.isPositive ? styles.thumbUp : styles.thumbDown}
+                ></FontAwesome>
+              <View
+                colors={["#ffdd00", "#eaa923"]}
+                style={styles.commentHeader}
+              >
+                <Image
+                  style={styles.avatar}
+                  source={{
+                    uri: comment.userAvatar,
+                  }}
+                ></Image>
+                <Text style={styles.nickname}>{comment.user}</Text>
+              </View>
               <Image
-                style={styles.avatar}
+                style={styles.photo}
                 source={{
-                  uri: "https://pbs.twimg.com/profile_images/1024112175378575360/y47CjJy4_400x400.jpg",
+                  uri: comment.imageURL,
                 }}
               ></Image>
-              <Text style={styles.nickname}>KajorSuchodolski</Text>
-              <FontAwesome name="thumbs-up" style={styles.thumb}></FontAwesome>
+              <View style={styles.opinionWrapper}>
+                <Text style={styles.opinion}>
+                  {comment.comment}
+                </Text>
+              </View>
             </View>
-            <Image
-              style={styles.photo}
-              source={{
-                uri: "https://images.squarespace-cdn.com/content/v1/58fbfecf725e25a3d1966494/1617153558938-JPZWR94CWYCRICXG933L/image-asset.jpeg",
-              }}
-            ></Image>
-            <View style={styles.opinionWrapper}>
-              <Text style={styles.opinion}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque
-                tempore atque mollitia fugiat quasi ipsum iste vero non corrupti
-                expedita.
-              </Text>
-            </View>
-          </View>
-          <View style={styles.commentBox}></View>
-          <View style={styles.commentBox}></View>
+          ))}
         </View>
       </ScrollView>
     </View>
@@ -105,8 +116,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
-    width: "86%",
-    marginVertical: "7%",
+    width: "87%",
+    marginVertical: "4%",
     borderRadius: 40,
 
     shadowColor: "#000",
@@ -139,11 +150,19 @@ const styles = StyleSheet.create({
     top: "-1%",
     left: "-30%",
   },
-  thumb: {
-    fontSize: 28,
+  thumbUp: {
+    fontSize: 35,
     color: "green",
-    top: "-1%",
-    left: "16%",
+    top: "3%",
+    position: "absolute",
+    left: 300,
+  },
+  thumbDown: {
+    fontSize: 35,
+    color: "red",
+    top: "6%",
+    left: 300,
+    position: "absolute"
   },
   photo: {
     width: "76%",

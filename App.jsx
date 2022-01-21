@@ -11,6 +11,7 @@ import { LogBox } from "react-native";
 import { AuthProvider } from "./context/authContext";
 import { IsDarkModeOn } from "./context/isDarkModeOn";
 import { Router } from "./components/Router/Router";
+import { LocationProvider } from "./context/locationContext";
 
 const App = () => {
   const [darkModeOn, setDarkModeOn] = React.useState(false);
@@ -40,9 +41,11 @@ const App = () => {
 
   return (
     <IsDarkModeOn.Provider value={darkModeOn}>
-      <AuthProvider>
-        <Router />
-      </AuthProvider>
+      <LocationProvider>
+        <AuthProvider>
+          <Router />
+        </AuthProvider>
+      </LocationProvider>
     </IsDarkModeOn.Provider>
   );
 };

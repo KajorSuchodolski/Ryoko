@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, View, Dimensions, Text, Image } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
-import { MapStyleLight, MapStyleDark, googleMapStyle } from "./mapStyles";
+import { MapStyleLight, MapStyleDark } from "./mapStyles";
 import * as Location from "expo-location";
-import { GetLocation } from "react-native-get-location";
-import * as PermissionsAndroid from "expo-permissions";
 import { CustomMarker } from "./CustomMarker";
 import { getLocations } from "../../api/LocationApi";
 import { Callout } from "react-native-maps";
@@ -13,14 +11,24 @@ import { useAuth } from "../../context/authContext";
 import { useNavigation } from "@react-navigation/core";
 import { IsDarkModeOn } from "../../context/isDarkModeOn";
 import MapViewDirections from "react-native-maps-directions";
+import { useIsFocused } from "@react-navigation/native";
+import { useLocation } from "../../context/locationContext";
 
-const GoogleMap = (props) => {
-  const [location, setLocation] = useState({});
+const GoogleMap = ({ route }, props) => {
+  const { showRoute, originLocation, destinationLocation } = useLocation();
+
+  const [location, setLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
+  });
   const [markers, setMarkers] = useState([]);
-  const [show, setShow] = useState(false);
-  const [refresh, setRefresh] = useState(false);
 
-  const { signOut, currentUser } = useAuth();
+  const isFocused = useIsFocused();
+
+  const { signOut } = useAuth();
+
   const navigation = useNavigation();
   const darkMode = useContext(IsDarkModeOn);
 
@@ -47,13 +55,14 @@ const GoogleMap = (props) => {
     getLocations()
       .then((data) => setMarkers(data))
       .catch((err) => alert(err.message));
-  }, []);
+  }, [/*isFocused*/]);
 
   return (
     <View style={styles.container}>
       <MapView
         provider={PROVIDER_GOOGLE}
         style={styles.map}
+        region={{ ...location }}
         showsUserLocation={true}
         showsMyLocationButton={true}
         userLocationUpdateInterval={100}
@@ -72,50 +81,55 @@ const GoogleMap = (props) => {
             key={marker.id}
           >
             <CustomMarker />
-            <Callout
-              onPress={() => {
-                navigation.navigate("Location Info", {
-                  title: marker.title,
-                  description: marker.description,
-                  imageUrl: marker.imageUrl,
-                  creatorNickname: marker.creatorNickname,
-                  creatorAvatar: marker.creatorAvatar
-                });
-              }}
-              tooltip
-            >
-              <View>
-                <LinearGradient
-                  colors={["#ffdd00", "#eaa923"]}
-                  style={styles.callout}
-                >
-                  <Text style={styles.name}>{marker.title}</Text>
-                  <Text
-                    style={{
-                      justifyContent: "center",
-                      position: "absolute",
-                      left: "10%",
-                    }}
+              <Callout
+                onPress={() => {
+                  navigation.navigate("Location Info", {
+                    id: marker.id,
+                    title: marker.title,
+                    description: marker.description,
+                    imageUrl: marker.imageUrl,
+                    creatorNickname: marker.creatorNickname,
+                    creatorAvatar: marker.creatorAvatar,
+                    latitude: marker.latitude,
+                    longitude: marker.longitude,
+                  });
+                }}
+                tooltip
+              >
+                <View>
+                  <LinearGradient
+                    colors={["#ffdd00", "#eaa923"]}
+                    style={styles.callout}
                   >
-                    <Image
-                      style={styles.image}
-                      source={{ uri: marker.imageUrl }}
-                      resizeMode="cover"
-                    />
-                  </Text>
-                </LinearGradient>
-              </View>
-            </Callout>
-          </Marker>
+                    <Text style={styles.name}>{marker.title}</Text>
+                    <Text
+                      style={{
+                        justifyContent: "center",
+                        position: "absolute",
+                        left: "10%",
+                      }}
+                    >
+                      <Image
+                        style={styles.image}
+                        source={{ uri: marker.imageUrl }}
+                        resizeMode="cover"
+                      />
+                    </Text>
+                  </LinearGradient>
+                </View>
+              </Callout>
+            </Marker>
         ))}
-        <MapViewDirections
-          lineDashPattern={[0]}
-          apikey={"AIzaSyB0tUBCVgT7YToHmhTJqVsYvMNecIoAo78"}
-          origin={{ latitude: 56.3317876, longitude: 50.0054812 }}
-          destination={{ latitude: 58.3317876, longitude: 60.0054812 }}
-          strokeWidth={4}
-          strokeColor="brown"
-        ></MapViewDirections>
+        {showRoute && (
+          <MapViewDirections
+            lineDashPattern={[1]}
+            apikey={"AIzaSyB0tUBCVgT7YToHmhTJqVsYvMNecIoAo78"}
+            origin={{ ...originLocation }}
+            destination={{ ...destinationLocation }}
+            strokeWidth={4}
+            strokeColor={darkMode ? "lightblue" :"brown"}
+          ></MapViewDirections>
+        )}
       </MapView>
     </View>
   );
@@ -132,7 +146,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height + 50,
+    height: Dimensions.get("window").height + 500,
     marginBottom: 0,
   },
   callout: {
@@ -143,24 +157,6 @@ const styles = StyleSheet.create({
     width: 200,
     height: 140,
   },
-  // arrow: {
-  //   backgroundColor: "transparent",
-  //   borderColor: "black",
-  //   borderTopColor: "transparent",
-  //   borderWidth: 13,
-  //   alignSelf: "center",
-  //   position: "absolute",
-  //   top: -32,
-  // },
-  // arrowBorder: {
-  //   backgroundColor: "transparent",
-  //   borderColor: "transparent",
-  //   borderTopColor: "transparent",
-  //   borderWidth: 16,
-  //   alignSelf: "center",
-  //   marginTop: -0.5,
-  //   marginBottom: -15,
-  // },
   name: {
     fontSize: 16,
     fontFamily: "Raleway_700Bold",

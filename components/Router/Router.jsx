@@ -10,6 +10,7 @@ import SettingsScreen from "../../screens/UserProfileScreens/SettingsScreen";
 import LocationInfoScreen from "../../screens/UserProfileScreens/LocationInfoScreen";
 import AuthChangeScreen from "../../screens/UserProfileScreens/AuthChangeScreen";
 import ShowCommentsScreen from "../../screens/UserProfileScreens/ShowCommentsScreen";
+import ActivityScreen from "../../screens/UserProfileScreens/ActivityScreen";
 
 export const Router = () => {
   const { currentUser } = useAuth();
@@ -21,10 +22,15 @@ export const Router = () => {
       <Stack.Navigator>
         {currentUser ? (
           <>
-            <Stack.Screen
+          <Stack.Screen
               options={{ headerShown: false }}
               name="User Profile"
               component={UserProfileScreen}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="Activity"
+              component={ActivityScreen}
             />
             <Stack.Screen
               options={{ headerShown: false }}
