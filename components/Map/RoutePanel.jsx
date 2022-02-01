@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, View, Dimensions, Text, Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text } from "react-native";
 import { useLocation } from "../../context/locationContext";
 import * as Location from "expo-location";
 import TimerComponent from "./TimerComponent";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { incrementVisited, sendUserData } from "../../api/LocationApi";
 import { useAuth } from "../../context/authContext";
-import { db } from "../../config/firebase";
+import ModalWithoutButtons from "../Main/ModalWithoutButtons";
 
 const RoutePanel = () => {
   const { currentUser } = useAuth();
@@ -21,6 +21,7 @@ const RoutePanel = () => {
     latitude: 0,
     longitude: 0,
   });
+  const [modal, setModal] = useState(false);
 
   const calculateMeters = (x1, y1, x2, y2) => {
     return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) * 111139;
@@ -57,8 +58,7 @@ const RoutePanel = () => {
       .then(async (data) => {
         const { latitude: x1, longitude: y1 } = data.coords;
         if (calculateMeters(x1, y1, x2, y2) < 20) {
-          alert("Destination reached");
-          setShowRoute(false);
+          setModal(true);
           incrementVisited(currentUser.displayName);
         }
       })
@@ -75,7 +75,16 @@ const RoutePanel = () => {
   });
 
   return (
+    
     <View style={styles.wrapper}>
+      <ModalWithoutButtons
+          isVisible={modal}
+          title="Congratulations! 🥳"
+          description="You have reached the location!"
+          onPress={() => {
+            setShowRoute(false);
+            setModal(!modal);
+          }}/> 
       <View style={{ ...styles.distanceWrapper }}>
         <Text style={{ ...styles.info, fontSize: 18 }}>Distance:</Text>
         <View style={{ ...styles.distanceWrapper, flexDirection: "row" }}>

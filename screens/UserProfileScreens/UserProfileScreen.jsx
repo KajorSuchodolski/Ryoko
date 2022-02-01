@@ -17,6 +17,7 @@ import { useLocation } from "../../context/locationContext";
 import RoutePanel from "../../components/Map/RoutePanel";
 import Modal from "react-native-modal";
 import ModalWithButtons from "../../components/Main/ModalWithButtons";
+import ModalWithoutButtons from "../../components/Main/ModalWithoutButtons";
 
 const { height, width } = Dimensions.get("window");
 
@@ -32,18 +33,6 @@ const UserProfileScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      {/* <ModalWithButtons
-        isVisible={modal}
-        title="Attention! 😵"
-        description="Are you sure you want to cancel this tour?"
-        confirm={() => {
-          setShowRoute(false);
-          setModal(false);
-        }}
-        cancel={() => {
-          setModal(false);
-        }}
-      /> */}
       <Modal isVisible={modal}>
         <LinearGradient colors={["#ffffff", "#ffffff"]} style={styles.modal}>
           <Text

@@ -51,11 +51,11 @@ const GoogleMap = ({ route }, props) => {
       });
     };
     getPermission();
-    console.log("Pożeram Ci kase skurwysynie haha");
+    console.log("Kasa kasa");
     getLocations()
       .then((data) => setMarkers(data))
       .catch((err) => alert(err.message));
-  }, [/*isFocused*/]);
+  }, [isFocused]);
 
   return (
     <View style={styles.container}>

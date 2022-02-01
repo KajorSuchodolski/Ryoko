@@ -3,6 +3,7 @@ import * as firebase from "firebase";
 import * as Location from "expo-location";
 import uuid from "react-native-uuid";
 import { useNavigation } from "@react-navigation/native";
+import ModalWithoutButtons from "../components/Main/ModalWithoutButtons";
 
 export const getComments = async (id) => {
   const comments = await db.collection("comments").where("id", "==", id).get();
@@ -19,12 +20,12 @@ export const getLocations = async () => {
 export const addLocations = async (title, description, uri, currentUser) => {
   if (title === "" || description === "") {
     alert("Title or description is empty!");
-    return;
+    return false;
   }
 
   if (!uri) {
     alert("Photo must be taken!");
-    return;
+    return false;
   }
 
   console.log(currentUser);
@@ -53,12 +54,13 @@ export const addLocations = async (title, description, uri, currentUser) => {
   await locations
     .add(marker)
     .then(() => {
-      alert("Location added succesfull!");
       db.collection("stats")
         .doc(currentUser.displayName)
         .update({ addedPlaces: firebase.firestore.FieldValue.increment(1) });
     })
     .catch((err) => alert(err.message));
+
+  return true;
 };
 
 export const getRates = (id) => {};
@@ -90,5 +92,15 @@ const uploadImage = async (uri, imageName) => {
   const blob = await image.blob();
 
   const images = storage.ref().child("images/" + imageName);
+  return images.put(blob);
+};
+
+const uploadComment = async (uri, imageName) => {
+  console.log(uri);
+
+  const image = await fetch(uri);
+  const blob = await image.blob();
+
+  const images = storage.ref().child("comments/" + imageName);
   return images.put(blob);
 };
